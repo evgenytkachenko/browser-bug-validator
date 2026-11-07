@@ -1,0 +1,45 @@
+{
+  "generic_semantic_judge_compatible": false,
+  "historical_model": {
+    "artifact_digest": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
+    "name": "llama3.1:8b",
+    "note": "Historical evaluated model identity, not proof a distinct judge is installed."
+  },
+  "human_review_status": "ready",
+  "model_judge_status": "scope_aware_adapter_required_not_supplied",
+  "packet_purpose": "human_calibration_bootstrap_not_holdout",
+  "packets": [
+    {
+      "case_id": "A",
+      "packet_file": "47c2645bf71c5594887cf7b3e359e7b1bb0ef6a7ba708bf7d38895332beec604.json",
+      "packet_id": "47c2645bf71c5594887cf7b3e359e7b1bb0ef6a7ba708bf7d38895332beec604"
+    },
+    {
+      "case_id": "B",
+      "packet_file": "70be5d6194535782070bf9ef55b8c984e62d1776be692c2c2b5b6291ecf27e8b.json",
+      "packet_id": "70be5d6194535782070bf9ef55b8c984e62d1776be692c2c2b5b6291ecf27e8b"
+    },
+    {
+      "case_id": "C",
+      "packet_file": "2d1835d3c911b3c6a9048df67b2253bdb98750cf0274b34b248e2162edd8dcea.json",
+      "packet_id": "2d1835d3c911b3c6a9048df67b2253bdb98750cf0274b34b248e2162edd8dcea"
+    },
+    {
+      "case_id": "D",
+      "packet_file": "83f3b6e39cca90e628c2c27e472fd9deee0824291b22ee767780afc9f73d0a82.json",
+      "packet_id": "83f3b6e39cca90e628c2c27e472fd9deee0824291b22ee767780afc9f73d0a82"
+    },
+    {
+      "case_id": "E",
+      "packet_file": "3a90bb1681ed505d9bd2d6951a42573cdda5f4f1f64a10beae485db310a4c238.json",
+      "packet_id": "3a90bb1681ed505d9bd2d6951a42573cdda5f4f1f64a10beae485db310a4c238"
+    },
+    {
+      "case_id": "F",
+      "packet_file": "1ffc541efae40da7a5bf62bb850a7efdffeb0a69420376bbd91587bdfd0efd7d.json",
+      "packet_id": "1ffc541efae40da7a5bf62bb850a7efdffeb0a69420376bbd91587bdfd0efd7d"
+    }
+  ],
+  "review_scope": "Only agent_report in each exact packet; use its explicit review_target.type and report target groups separately.",
+  "rubric_version": "semantic-v1"
+}

@@ -1,0 +1,8 @@
+{
+  "node_executable": "/absolute/path/to/node",
+  "playwright_module": "/absolute/path/to/playwright",
+  "executable_path": "/absolute/path/to/chrome",
+  "headless": true,
+  "timeout_ms": 8000,
+  "process_timeout_seconds": 60
+}

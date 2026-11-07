@@ -1,0 +1,89 @@
+{
+  "labels": [
+    {
+      "case_id": "A",
+      "dimensions": {
+        "groundedness": null,
+        "relevance": null,
+        "uncertainty": null
+      },
+      "packet_id": "47c2645bf71c5594887cf7b3e359e7b1bb0ef6a7ba708bf7d38895332beec604",
+      "rationale": null,
+      "reviewed_at": null,
+      "reviewer": null,
+      "source": "human",
+      "source_message_id": null
+    },
+    {
+      "case_id": "B",
+      "dimensions": {
+        "groundedness": null,
+        "relevance": null,
+        "uncertainty": null
+      },
+      "packet_id": "70be5d6194535782070bf9ef55b8c984e62d1776be692c2c2b5b6291ecf27e8b",
+      "rationale": null,
+      "reviewed_at": null,
+      "reviewer": null,
+      "source": "human",
+      "source_message_id": null
+    },
+    {
+      "case_id": "C",
+      "dimensions": {
+        "groundedness": null,
+        "relevance": null,
+        "uncertainty": null
+      },
+      "packet_id": "2d1835d3c911b3c6a9048df67b2253bdb98750cf0274b34b248e2162edd8dcea",
+      "rationale": null,
+      "reviewed_at": null,
+      "reviewer": null,
+      "source": "human",
+      "source_message_id": null
+    },
+    {
+      "case_id": "D",
+      "dimensions": {
+        "groundedness": null,
+        "relevance": null,
+        "uncertainty": null
+      },
+      "packet_id": "83f3b6e39cca90e628c2c27e472fd9deee0824291b22ee767780afc9f73d0a82",
+      "rationale": null,
+      "reviewed_at": null,
+      "reviewer": null,
+      "source": "human",
+      "source_message_id": null
+    },
+    {
+      "case_id": "E",
+      "dimensions": {
+        "groundedness": null,
+        "relevance": null,
+        "uncertainty": null
+      },
+      "packet_id": "3a90bb1681ed505d9bd2d6951a42573cdda5f4f1f64a10beae485db310a4c238",
+      "rationale": null,
+      "reviewed_at": null,
+      "reviewer": null,
+      "source": "human",
+      "source_message_id": null
+    },
+    {
+      "case_id": "F",
+      "dimensions": {
+        "groundedness": null,
+        "relevance": null,
+        "uncertainty": null
+      },
+      "packet_id": "1ffc541efae40da7a5bf62bb850a7efdffeb0a69420376bbd91587bdfd0efd7d",
+      "rationale": null,
+      "reviewed_at": null,
+      "reviewer": null,
+      "source": "human",
+      "source_message_id": null
+    }
+  ],
+  "rubric_version": "semantic-v1"
+}
