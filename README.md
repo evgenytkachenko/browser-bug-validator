@@ -1,5 +1,13 @@
 # Browser bug validator, v0.5.0 evaluation foundation
 
+## Token-free continuous integration
+
+[GitHub Actions](.github/workflows/evals.yml) checks the unit/contract suite,
+development HTTP goldens, and all 11 development tasks using real Chromium with
+a scripted decision policy. No model API key is required. A green run verifies
+those controls, **not model reliability**. See [the CI setup and future real-model
+plan](docs/ci-evaluations.md), including what a Bedrock integration would require.
+
 
 ## New: traceable evaluations and judge calibration tooling
 
@@ -39,7 +47,7 @@ The narrow first workflow is a fictional task board: a reported status change is
 
 ## Requirements
 
-Python 3.10+ for the complete evaluation suite, an existing Node.js, Playwright 1.48+, and Chromium/Chrome on macOS or Linux. The evaluation runner uses POSIX process groups and does not currently support Windows. Model mode additionally requires an existing local Ollama server and installed model. No Python packages are required. Nothing here downloads dependencies or models, changes the user's browser profile, installs software, or calls a paid service.
+Python 3.10+ for the complete evaluation suite, an existing Node.js, Playwright 1.48+, and Chromium/Chrome on macOS or Linux. The evaluation runner uses POSIX process groups and does not currently support Windows. Model mode additionally requires an existing local Ollama server and installed model. No Python packages are required. Normal agent/evaluation commands do not download dependencies or models, change the user's browser profile, install software, or call a paid service. The explicit [CI setup](docs/ci-evaluations.md) installs its pinned browser dependencies on the disposable runner.
 
 Run from this directory. If Playwright or Chrome is not discoverable, provide `--browser-config` with the existing executable/module paths. Example for an installed ChatGPT Mac application:
 
