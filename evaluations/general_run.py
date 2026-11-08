@@ -21,6 +21,7 @@ from .general_grading import grade
 from .general_tasks import TASKS, exercise_required, public_inputs
 from .identity import resolve_local_model
 from .metrics import summarize
+from .trial_metrics import summarize_trials
 from .run import dump, source_fingerprint
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -143,7 +144,7 @@ def run_trial(task, trial_index, output, backend, model_config=None, browser_con
                "browser_started": bool(report.get("provenance", {}).get("browser_runtime", {}).get("browser")),
                **decision_counts(report),
                "failed_checks": [check["name"] for check in result["checks"] if not check["passed"]],
-               "process_status": process, "elapsed_seconds": round(time.monotonic() - started, 4)}
+               "grader_error": result.get("grader_error"), "process_status": process, "elapsed_seconds": round(time.monotonic() - started, 4)}
         dump(directory / "trial.json", row)
         dump(directory / "artifact-hashes.json", {str(path.relative_to(directory)): _hash(path) for path in sorted(directory.rglob("*")) if path.is_file()})
         return row
@@ -163,6 +164,7 @@ def main(argv=None):
     parser.add_argument("--browser-config", type=Path)
     parser.add_argument("--timeout", type=float, default=600)
     parser.add_argument("--frozen-manifest", type=Path)
+    parser.add_argument("--holdout-ledger", type=Path, help="Optional consume-once author-visible reservation ledger")
     parser.add_argument("--acknowledge-author-visible-holdout", action="store_true")
     args = parser.parse_args(argv)
     if not 1 <= args.trials <= 100 or not 1 <= args.timeout <= 1800:
@@ -173,6 +175,10 @@ def main(argv=None):
     if not tasks or args.task and any(task_id not in {task["id"] for task in tasks} for task_id in args.task):
         parser.error("Choose tasks only from the selected split")
     sources = fingerprint()
+    if args.holdout_ledger and args.split != "reserved-transfer":
+        parser.error("--holdout-ledger applies only to reserved-transfer")
+    if args.holdout_ledger and args.task:
+        parser.error("Ledger-controlled evaluation requires the full reserved split")
     if args.split == "reserved-transfer":
         if not args.acknowledge_author_visible_holdout or args.frozen_manifest is None:
             parser.error("Reserved transfer requires --frozen-manifest and --acknowledge-author-visible-holdout; it is not a blind benchmark")
@@ -186,13 +192,22 @@ def main(argv=None):
     model_config = json.loads(model_path.read_text()) if model_path else {}
     identity = resolve_local_model(model_config) if args.backend == "local-model" else {"status": "not_applicable", "reason": "scripted control is not a model"}
     manifest = {"schema_version": 1, "suite": "general-loop-v1", "split": args.split,
-                "holdout_status": "reserved-author-visible-not-blind", "backend": args.backend,
+                "holdout_status": "development" if args.split == "development" else "untracked-author-visible-transfer-not-blind", "backend": args.backend,
+                "completed": False, "integrity_version": 1,
                 "task_ids": [task["id"] for task in tasks], "trials_per_task": args.trials,
                 "sources": sources, "model_config_sha256": _hash(model_path), "browser_config_sha256": _hash(browser_path),
                 "model_identity_before": identity, "runtime": {"python": sys.version, "platform": platform.platform()},
                 "model_quality_claim_eligible": False,
                 "frozen_manifest_sha256": _hash(args.frozen_manifest) if args.frozen_manifest else None,
                 "created_unix": time.time(), "separation_limit": "Private fixture state withheld from model and separate agent process; same filesystem user, not OS-isolated."}
+    if args.holdout_ledger:
+        from .holdout import consume
+        binding = {key: manifest.get(key) for key in ("sources", "backend", "model_config_sha256", "browser_config_sha256", "model_identity_before")}
+        try:
+            manifest["holdout_reservation"] = consume(args.holdout_ledger, tasks, binding, manifest["frozen_manifest_sha256"], output)
+        except (ValueError, OSError) as exc:
+            parser.error(str(exc))
+        manifest["holdout_status"] = "consumed-author-visible-not-blind"
     dump(output / "manifest.json", manifest)
     rows = []
     for task in tasks:
@@ -210,6 +225,7 @@ def main(argv=None):
     dump(output / "manifest.json", manifest)
     summary = summarize(rows)
     summary.update(participation_summary(rows))
+    summary.update(summarize_trials(rows))
     summary.update(backend=args.backend, split=args.split, source_frozen_through_run=manifest["source_frozen_through_run"], model_identity_stable=manifest["model_identity_stable"],
                    full_exercise_trials=sum(row["requires_exercise"] for row in rows),
                    full_exercise_passes=sum(row["requires_exercise"] and row["deterministic_pass"] for row in rows),
@@ -222,6 +238,9 @@ def main(argv=None):
                    qualification=("Real-model controlled evaluation" if manifest["model_quality_claim_eligible"] else "Real-model evaluation attempted; execution or provenance not qualified") if args.backend == "local-model" else "Scripted policy integration control, not model performance")
     summary["limitations"] += ["Three controlled workflows do not establish arbitrary-website capability.", "Reserved transfer cases are visible to authors and must not be called a blind/unseen benchmark.", "Author changes after inspecting reserved results contaminate that split; version a new reserved set before another generalization claim."]
     dump(output / "summary.json", summary)
+    manifest["completed"] = True
+    dump(output / "manifest.json", manifest)
+    dump(output / "run-artifact-hashes.json", {str(path.relative_to(output)): _hash(path) for path in sorted(output.rglob("*")) if path.is_file()})
     print(json.dumps(summary, indent=2))
     return 0 if summary["failures"] == 0 and manifest["source_frozen_through_run"] and manifest["model_identity_stable"] else 1
 

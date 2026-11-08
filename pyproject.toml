@@ -1,6 +1,6 @@
 [project]
 name = "browser-bug-validator"
-version = "0.4.0"
+version = "0.5.0"
 description = "Bounded model-driven browser bug-validation loop and controlled evaluation lab"
 requires-python = ">=3.10"
 dependencies = []

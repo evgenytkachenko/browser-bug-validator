@@ -2,7 +2,7 @@
 
 The original implementation, operator skills, fictional fixtures, evaluator and tests were developed together for this project. No proprietary source library was accessed or copied into the package. The reports and knowledge base describe disposable fictional task-board, search and quantity-validation applications, not private customer or production records.
 
-This package preserves the v0.3 task-board runtime and adds the v0.4 reusable controlled-fixture prototype. The final bundle contains the exact rc4 runtime, tests, evaluator and fixtures, with documentation-only additions describing the completed evaluation. See `final-validation.md` for the frozen-source hash, final outcome, provenance and limits. Documentation is not evidence that a mocked test was a live run.
+This package preserves the v0.3 task-board runtime and the v0.4 reusable controlled-fixture agent and fixtures. v0.5 adds evaluation-only catalog, golden verification, judge/retrieval/calibration, integrity, metrics and local holdout controls; it does not change the evaluated agent or claim improved model performance. See `final-validation.md` for the frozen-source hash, final outcome, provenance and limits. Documentation is not evidence that a mocked test was a live run.
 
 ## Regression data
 
@@ -19,3 +19,16 @@ The distributable source bundle excludes browser profiles, credentials, producti
 Repository visibility does not authorize adding excluded artifacts. Review content before any later publication. The final package was prepared for the user; no repository push, merge or deployment is implied by packaging.
 
 The controller provides application-level controls for authorized disposable loopback fixtures. Agent and oracle processes share an OS user, and executable/module paths are operator-controlled. The operator also defines the capabilities, probes and expected requirements. Do not treat routing, content hashes, fixture separation or code originality as hostile-code isolation, complete egress control, autonomous permission checking, or a guarantee that the test specification matches a real bug.
+
+## v0.5 authored evaluation material
+
+The new task catalog describes the existing authored-fictional tasks. Static
+goldens are checked by real development HTTP oracle controls, not labeled as
+browser or model results. The eight judge-reference examples are original
+synthetic rubric illustrations, not human judgments or recorded model runs.
+Synthetic judge and human-label values inside unit tests are parser/transport
+fixtures only; no completed reviewer label set is distributed.
+
+The Anthropic evaluation article is linked as methodological background. No
+article text or proprietary task dataset is bundled. Same-writer hashes and
+self-declared reference provenance are integrity checks, not authentication.

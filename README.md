@@ -1,7 +1,20 @@
-# Browser bug validator, v0.4.0 evaluated prototype
+# Browser bug validator, v0.5.0 evaluation foundation
 
 
-## New: reusable model-driven loop
+## New: traceable evaluations and judge calibration tooling
+
+v0.5 adds a versioned **17-task catalog**, executable development golden checks,
+eight **synthetic judge-only reference examples**, a runnable independent local
+judge for general-loop reports, explicit human calibration/validation, repeated
+trial metrics and a consume-once transfer ledger. Start with the
+[evaluation foundation guide](docs/evaluation-foundation.md) and
+[task/golden catalog](docs/task-catalog.md). See the [v0.5 validation record](docs/v05-validation.md) for what actually ran and what remains unverified.
+
+This improves the evaluation tooling, **not the agent's measured reliability**.
+No new real-model run, real judge calibration, human label set or blind holdout
+result is claimed. The recorded v0.4 result below remains the agent baseline.
+
+## Preserved v0.4: reusable model-driven loop
 
 v0.4 adds `run-general`: a persistent **observe → decide → browser action → observe** loop. The model reads different reports and relevant KB entries, selects one explicitly permitted action at a time, and receives actual browser evidence before deciding again. Three controlled fixture families cover status persistence, search correctness, and invalid quantity validation.
 

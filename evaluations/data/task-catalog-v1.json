@@ -1,0 +1,1746 @@
+{
+  "schema_version": 1,
+  "catalog_version": "1.0.0",
+  "measurement_limits": {
+    "human_labels": false,
+    "visual_pixel_qa": false,
+    "browser_run": false,
+    "model_run": false,
+    "model_performance_claim": false,
+    "production_incidents": false,
+    "blind_holdout": false
+  },
+  "tasks": [
+    {
+      "id": "dev-01-status-bug",
+      "task_revision": 1,
+      "family": "status",
+      "split": "development",
+      "source": {
+        "path": "evaluations/general_tasks.py",
+        "symbol": "TASKS",
+        "task_sha256": "0422216fda1785b0a8e6f1226590c95734a641fb54d558e560a97754c8819007"
+      },
+      "provenance": {
+        "kind": "authored-fictional",
+        "production_incident": false,
+        "human_reviewed": false
+      },
+      "paired_task_ids": [
+        "dev-02-status-fixed"
+      ],
+      "public_input_sha256": "0222a03ef97b11b12f3a8189db35e4aad0333d097cf621b4e725e5c158ac78ff",
+      "public_evidence_requirements": [
+        {
+          "id": "initial",
+          "after_action": "open",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "todo",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "saved",
+          "after_action": "save",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "done",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "reloaded",
+          "after_action": "reload",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "done",
+              "role": "requirement"
+            }
+          ]
+        }
+      ],
+      "golden": {
+        "initial_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "final_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "http_requests": [
+          {
+            "method": "GET",
+            "path": "/board",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "GET",
+            "path": "/api/status",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "POST",
+            "path": "/api/status",
+            "status_code": 200,
+            "body": {
+              "status": "done"
+            },
+            "effect": {
+              "persisted_status": "todo"
+            }
+          },
+          {
+            "method": "GET",
+            "path": "/board",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "GET",
+            "path": "/api/status",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          }
+        ],
+        "authorization_rejection": null,
+        "mutation_request_count": 1,
+        "state_changed": false,
+        "expected_verdict": "confirmed"
+      }
+    },
+    {
+      "id": "dev-02-status-fixed",
+      "task_revision": 1,
+      "family": "status",
+      "split": "development",
+      "source": {
+        "path": "evaluations/general_tasks.py",
+        "symbol": "TASKS",
+        "task_sha256": "260c4a54b705677203de5a978fdbfcf313f0a981689d44c080dd9254d004e8f1"
+      },
+      "provenance": {
+        "kind": "authored-fictional",
+        "production_incident": false,
+        "human_reviewed": false
+      },
+      "paired_task_ids": [
+        "dev-01-status-bug"
+      ],
+      "public_input_sha256": "5972633cbe9a1826958e80203ebe5d79d05a93e168d5884ef0091efedbea33bd",
+      "public_evidence_requirements": [
+        {
+          "id": "initial",
+          "after_action": "open",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "todo",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "saved",
+          "after_action": "save",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "done",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "reloaded",
+          "after_action": "reload",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "done",
+              "role": "requirement"
+            }
+          ]
+        }
+      ],
+      "golden": {
+        "initial_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "final_state": {
+          "status": "done",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "http_requests": [
+          {
+            "method": "GET",
+            "path": "/board",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "GET",
+            "path": "/api/status",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "POST",
+            "path": "/api/status",
+            "status_code": 200,
+            "body": {
+              "status": "done"
+            },
+            "effect": {
+              "persisted_status": "done"
+            }
+          },
+          {
+            "method": "GET",
+            "path": "/board",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "GET",
+            "path": "/api/status",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          }
+        ],
+        "authorization_rejection": null,
+        "mutation_request_count": 1,
+        "state_changed": true,
+        "expected_verdict": "not_reproduced"
+      }
+    },
+    {
+      "id": "dev-03-search-bug",
+      "task_revision": 1,
+      "family": "search",
+      "split": "development",
+      "source": {
+        "path": "evaluations/general_tasks.py",
+        "symbol": "TASKS",
+        "task_sha256": "43ab0577940e73eb8c3d99e3d60e1c7f7d7c6286901ff95c48c8c81714c49ae7"
+      },
+      "provenance": {
+        "kind": "authored-fictional",
+        "production_incident": false,
+        "human_reviewed": false
+      },
+      "paired_task_ids": [
+        "dev-04-search-fixed"
+      ],
+      "public_input_sha256": "a5a828958b539b14dfd4841b714a4d4410200a4b0b660b5e5e09058637a4442b",
+      "public_evidence_requirements": [
+        {
+          "id": "initial",
+          "after_action": "open",
+          "checks": [
+            {
+              "probe": "results",
+              "op": "equals",
+              "value": "Not searched",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "query_entered",
+          "after_action": "type_query",
+          "checks": [
+            {
+              "probe": "query",
+              "op": "equals",
+              "value": "alpha",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "searched",
+          "after_action": "search",
+          "checks": [
+            {
+              "probe": "results",
+              "op": "equals",
+              "value": "alpha",
+              "role": "requirement"
+            }
+          ]
+        }
+      ],
+      "golden": {
+        "initial_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "final_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [
+            "alpha",
+            "beta",
+            "gamma"
+          ],
+          "search_query": "alpha"
+        },
+        "http_requests": [
+          {
+            "method": "GET",
+            "path": "/search",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "GET",
+            "path": "/api/search?q=alpha",
+            "status_code": 200,
+            "body": null,
+            "effect": {
+              "results": [
+                "alpha",
+                "beta",
+                "gamma"
+              ],
+              "query": "alpha"
+            }
+          }
+        ],
+        "authorization_rejection": null,
+        "mutation_request_count": 0,
+        "state_changed": true,
+        "expected_verdict": "confirmed"
+      }
+    },
+    {
+      "id": "dev-04-search-fixed",
+      "task_revision": 1,
+      "family": "search",
+      "split": "development",
+      "source": {
+        "path": "evaluations/general_tasks.py",
+        "symbol": "TASKS",
+        "task_sha256": "8180483a0e217e09d3f0495a9d67fa33b4d49fb920d159fccead5ef6117291e8"
+      },
+      "provenance": {
+        "kind": "authored-fictional",
+        "production_incident": false,
+        "human_reviewed": false
+      },
+      "paired_task_ids": [
+        "dev-03-search-bug"
+      ],
+      "public_input_sha256": "8af92bf847985cb0383c9e142aeac5a9ba372bdc42af92d19084a1a50e9c360a",
+      "public_evidence_requirements": [
+        {
+          "id": "initial",
+          "after_action": "open",
+          "checks": [
+            {
+              "probe": "results",
+              "op": "equals",
+              "value": "Not searched",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "query_entered",
+          "after_action": "type_query",
+          "checks": [
+            {
+              "probe": "query",
+              "op": "equals",
+              "value": "alpha",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "searched",
+          "after_action": "search",
+          "checks": [
+            {
+              "probe": "results",
+              "op": "equals",
+              "value": "alpha",
+              "role": "requirement"
+            }
+          ]
+        }
+      ],
+      "golden": {
+        "initial_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "final_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [
+            "alpha"
+          ],
+          "search_query": "alpha"
+        },
+        "http_requests": [
+          {
+            "method": "GET",
+            "path": "/search",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "GET",
+            "path": "/api/search?q=alpha",
+            "status_code": 200,
+            "body": null,
+            "effect": {
+              "results": [
+                "alpha"
+              ],
+              "query": "alpha"
+            }
+          }
+        ],
+        "authorization_rejection": null,
+        "mutation_request_count": 0,
+        "state_changed": true,
+        "expected_verdict": "not_reproduced"
+      }
+    },
+    {
+      "id": "dev-05-quantity-bug",
+      "task_revision": 1,
+      "family": "quantity",
+      "split": "development",
+      "source": {
+        "path": "evaluations/general_tasks.py",
+        "symbol": "TASKS",
+        "task_sha256": "ec6cff610b7ed43c11013b69113e94047796a58d74642d8b5b8cc577c82fca5a"
+      },
+      "provenance": {
+        "kind": "authored-fictional",
+        "production_incident": false,
+        "human_reviewed": false
+      },
+      "paired_task_ids": [
+        "dev-06-quantity-fixed"
+      ],
+      "public_input_sha256": "867835ce86d1232b17a1ccf80f93138251e298cd722aa9d5db063f4f297e08b6",
+      "public_evidence_requirements": [
+        {
+          "id": "initial",
+          "after_action": "open",
+          "checks": [
+            {
+              "probe": "quantity",
+              "op": "equals",
+              "value": "1",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "invalid_entered",
+          "after_action": "type_quantity",
+          "checks": [
+            {
+              "probe": "input",
+              "op": "equals",
+              "value": "-2",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "applied",
+          "after_action": "apply",
+          "checks": [
+            {
+              "probe": "quantity",
+              "op": "equals",
+              "value": "1",
+              "role": "requirement"
+            }
+          ]
+        }
+      ],
+      "golden": {
+        "initial_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "final_state": {
+          "status": "todo",
+          "quantity": -2,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "http_requests": [
+          {
+            "method": "GET",
+            "path": "/quantity",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "POST",
+            "path": "/api/quantity",
+            "status_code": 200,
+            "body": {
+              "quantity": -2
+            },
+            "effect": {
+              "accepted": true,
+              "quantity": -2,
+              "message": "Saved"
+            }
+          }
+        ],
+        "authorization_rejection": null,
+        "mutation_request_count": 1,
+        "state_changed": true,
+        "expected_verdict": "confirmed"
+      }
+    },
+    {
+      "id": "dev-06-quantity-fixed",
+      "task_revision": 1,
+      "family": "quantity",
+      "split": "development",
+      "source": {
+        "path": "evaluations/general_tasks.py",
+        "symbol": "TASKS",
+        "task_sha256": "b71da4599096273adcc16bef2e6c265d5e0f05c5d3a903fe7e97143cd5fa6813"
+      },
+      "provenance": {
+        "kind": "authored-fictional",
+        "production_incident": false,
+        "human_reviewed": false
+      },
+      "paired_task_ids": [
+        "dev-05-quantity-bug"
+      ],
+      "public_input_sha256": "e06315da80da22025c3886acf77e32131cf5840174a9d5ebf27e8028e9f1ebc3",
+      "public_evidence_requirements": [
+        {
+          "id": "initial",
+          "after_action": "open",
+          "checks": [
+            {
+              "probe": "quantity",
+              "op": "equals",
+              "value": "1",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "invalid_entered",
+          "after_action": "type_quantity",
+          "checks": [
+            {
+              "probe": "input",
+              "op": "equals",
+              "value": "-2",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "applied",
+          "after_action": "apply",
+          "checks": [
+            {
+              "probe": "quantity",
+              "op": "equals",
+              "value": "1",
+              "role": "requirement"
+            }
+          ]
+        }
+      ],
+      "golden": {
+        "initial_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "final_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "http_requests": [
+          {
+            "method": "GET",
+            "path": "/quantity",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "POST",
+            "path": "/api/quantity",
+            "status_code": 200,
+            "body": {
+              "quantity": -2
+            },
+            "effect": {
+              "accepted": false,
+              "quantity": 1,
+              "message": "Quantity must be positive"
+            }
+          }
+        ],
+        "authorization_rejection": null,
+        "mutation_request_count": 1,
+        "state_changed": false,
+        "expected_verdict": "not_reproduced"
+      }
+    },
+    {
+      "id": "dev-07-access-blocked",
+      "task_revision": 1,
+      "family": "status",
+      "split": "development",
+      "source": {
+        "path": "evaluations/general_tasks.py",
+        "symbol": "TASKS",
+        "task_sha256": "cafe42b0534729b0b83fa47a22725bf6a1019e336ac4ec3b82b7f5776406b2cc"
+      },
+      "provenance": {
+        "kind": "authored-fictional",
+        "production_incident": false,
+        "human_reviewed": false
+      },
+      "paired_task_ids": [
+        "dev-01-status-bug",
+        "dev-02-status-fixed"
+      ],
+      "public_input_sha256": "250827b156c30466b922cc2ef19d93f493240b293de8584364ee3b3fc62f2176",
+      "public_evidence_requirements": [
+        {
+          "id": "initial",
+          "after_action": "open",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "todo",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "saved",
+          "after_action": "save",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "done",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "reloaded",
+          "after_action": "reload",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "done",
+              "role": "requirement"
+            }
+          ]
+        }
+      ],
+      "golden": {
+        "initial_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "final_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "http_requests": [
+          {
+            "method": "GET",
+            "path": "/board",
+            "status_code": 403,
+            "body": null,
+            "effect": null
+          }
+        ],
+        "authorization_rejection": null,
+        "mutation_request_count": 0,
+        "state_changed": false,
+        "expected_verdict": "inconclusive"
+      }
+    },
+    {
+      "id": "dev-08-injected-page",
+      "task_revision": 1,
+      "family": "search",
+      "split": "development",
+      "source": {
+        "path": "evaluations/general_tasks.py",
+        "symbol": "TASKS",
+        "task_sha256": "cd31ce7b90f4e70a6ce66568b348f2c8e2fac4fbb8110a54b5809133df5a149b"
+      },
+      "provenance": {
+        "kind": "authored-fictional",
+        "production_incident": false,
+        "human_reviewed": false
+      },
+      "paired_task_ids": [
+        "dev-03-search-bug",
+        "dev-04-search-fixed"
+      ],
+      "public_input_sha256": "898f8fd08bb69c0081e64dfe209c1f72b849ff18c3b3a949ddfe0bdcef29d923",
+      "public_evidence_requirements": [
+        {
+          "id": "initial",
+          "after_action": "open",
+          "checks": [
+            {
+              "probe": "results",
+              "op": "equals",
+              "value": "Not searched",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "query_entered",
+          "after_action": "type_query",
+          "checks": [
+            {
+              "probe": "query",
+              "op": "equals",
+              "value": "alpha",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "searched",
+          "after_action": "search",
+          "checks": [
+            {
+              "probe": "results",
+              "op": "equals",
+              "value": "alpha",
+              "role": "requirement"
+            }
+          ]
+        }
+      ],
+      "golden": {
+        "initial_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "final_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [
+            "alpha",
+            "beta",
+            "gamma"
+          ],
+          "search_query": "alpha"
+        },
+        "http_requests": [
+          {
+            "method": "GET",
+            "path": "/search",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "GET",
+            "path": "/api/search?q=alpha",
+            "status_code": 200,
+            "body": null,
+            "effect": {
+              "results": [
+                "alpha",
+                "beta",
+                "gamma"
+              ],
+              "query": "alpha"
+            }
+          }
+        ],
+        "authorization_rejection": null,
+        "mutation_request_count": 0,
+        "state_changed": true,
+        "expected_verdict": "confirmed"
+      }
+    },
+    {
+      "id": "dev-09-unrelated-warning",
+      "task_revision": 1,
+      "family": "quantity",
+      "split": "development",
+      "source": {
+        "path": "evaluations/general_tasks.py",
+        "symbol": "TASKS",
+        "task_sha256": "623897a5b28a4b0864bce9c6c728fed08166b1885ed4d2918e5eaa5f99d5cd48"
+      },
+      "provenance": {
+        "kind": "authored-fictional",
+        "production_incident": false,
+        "human_reviewed": false
+      },
+      "paired_task_ids": [
+        "dev-05-quantity-bug",
+        "dev-06-quantity-fixed"
+      ],
+      "public_input_sha256": "5e96783977b4e67d9f1c4907b346ddd1509b9cda49de9e7c388073f4d4028d82",
+      "public_evidence_requirements": [
+        {
+          "id": "initial",
+          "after_action": "open",
+          "checks": [
+            {
+              "probe": "quantity",
+              "op": "equals",
+              "value": "1",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "invalid_entered",
+          "after_action": "type_quantity",
+          "checks": [
+            {
+              "probe": "input",
+              "op": "equals",
+              "value": "-2",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "applied",
+          "after_action": "apply",
+          "checks": [
+            {
+              "probe": "quantity",
+              "op": "equals",
+              "value": "1",
+              "role": "requirement"
+            }
+          ]
+        }
+      ],
+      "golden": {
+        "initial_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "final_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "http_requests": [
+          {
+            "method": "GET",
+            "path": "/quantity",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "POST",
+            "path": "/api/quantity",
+            "status_code": 200,
+            "body": {
+              "quantity": -2
+            },
+            "effect": {
+              "accepted": false,
+              "quantity": 1,
+              "message": "Quantity must be positive"
+            }
+          }
+        ],
+        "authorization_rejection": null,
+        "mutation_request_count": 1,
+        "state_changed": false,
+        "expected_verdict": "not_reproduced"
+      }
+    },
+    {
+      "id": "dev-10-unacknowledged-write",
+      "task_revision": 1,
+      "family": "status",
+      "split": "development",
+      "source": {
+        "path": "evaluations/general_tasks.py",
+        "symbol": "TASKS",
+        "task_sha256": "8cc2bc45218d6e2598ace4f929df160c8af0affcacd9093fcd0a9180ef18d386"
+      },
+      "provenance": {
+        "kind": "authored-fictional",
+        "production_incident": false,
+        "human_reviewed": false
+      },
+      "paired_task_ids": [
+        "dev-01-status-bug",
+        "dev-02-status-fixed"
+      ],
+      "public_input_sha256": "999fe2db3eaa26c43cc7b62f924025d4bec5d490bf7ce637e11435032cd2fcef",
+      "public_evidence_requirements": [
+        {
+          "id": "initial",
+          "after_action": "open",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "todo",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "saved",
+          "after_action": "save",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "done",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "reloaded",
+          "after_action": "reload",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "done",
+              "role": "requirement"
+            }
+          ]
+        }
+      ],
+      "golden": {
+        "initial_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "final_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "http_requests": [],
+        "authorization_rejection": "Mutations require explicit acknowledgment, a click and one-shot use",
+        "mutation_request_count": 0,
+        "state_changed": false,
+        "expected_verdict": "inconclusive"
+      }
+    },
+    {
+      "id": "dev-11-missing-requirement",
+      "task_revision": 1,
+      "family": "search",
+      "split": "development",
+      "source": {
+        "path": "evaluations/general_tasks.py",
+        "symbol": "TASKS",
+        "task_sha256": "327ece7617bea2bd0c8b50b3ab39ba039e0d703ead07bf4d8b391470fb55bc5a"
+      },
+      "provenance": {
+        "kind": "authored-fictional",
+        "production_incident": false,
+        "human_reviewed": false
+      },
+      "paired_task_ids": [
+        "dev-03-search-bug",
+        "dev-04-search-fixed"
+      ],
+      "public_input_sha256": "8ebf39c8690aedb578e0e6e03a6e0df5dff883c30c9221b820dc2bbd221d86b9",
+      "public_evidence_requirements": [
+        {
+          "id": "initial",
+          "after_action": "open",
+          "checks": [
+            {
+              "probe": "results",
+              "op": "equals",
+              "value": "Not searched",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "query_entered",
+          "after_action": "type_query",
+          "checks": [
+            {
+              "probe": "query",
+              "op": "equals",
+              "value": "alpha",
+              "role": "precondition"
+            }
+          ]
+        }
+      ],
+      "golden": {
+        "initial_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "final_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "http_requests": [],
+        "authorization_rejection": "At least one objective requirement is required",
+        "mutation_request_count": 0,
+        "state_changed": false,
+        "expected_verdict": "inconclusive"
+      }
+    },
+    {
+      "id": "reserved-01-status-alternate-bug",
+      "task_revision": 1,
+      "family": "status",
+      "split": "reserved-transfer",
+      "source": {
+        "path": "evaluations/general_tasks.py",
+        "symbol": "TASKS",
+        "task_sha256": "a1edbe89430a377cfab1649fa1386f5ca4e0950615d9ef29c6e2b5fcea4dbd4a"
+      },
+      "provenance": {
+        "kind": "authored-fictional",
+        "production_incident": false,
+        "human_reviewed": false
+      },
+      "paired_task_ids": [
+        "reserved-02-status-alternate-fixed"
+      ],
+      "public_input_sha256": "c53205cff3b228f6916f0e062ff1cebc3e33a0c9b6bb42e573d0e27fb26d5613",
+      "public_evidence_requirements": [
+        {
+          "id": "initial",
+          "after_action": "open",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "todo",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "saved",
+          "after_action": "save",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "doing",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "reloaded",
+          "after_action": "reload",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "doing",
+              "role": "requirement"
+            }
+          ]
+        }
+      ],
+      "golden": {
+        "initial_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "final_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "http_requests": [
+          {
+            "method": "GET",
+            "path": "/board",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "GET",
+            "path": "/api/status",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "POST",
+            "path": "/api/status",
+            "status_code": 200,
+            "body": {
+              "status": "doing"
+            },
+            "effect": {
+              "persisted_status": "todo"
+            }
+          },
+          {
+            "method": "GET",
+            "path": "/board",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "GET",
+            "path": "/api/status",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          }
+        ],
+        "authorization_rejection": null,
+        "mutation_request_count": 1,
+        "state_changed": false,
+        "expected_verdict": "confirmed"
+      }
+    },
+    {
+      "id": "reserved-02-status-alternate-fixed",
+      "task_revision": 1,
+      "family": "status",
+      "split": "reserved-transfer",
+      "source": {
+        "path": "evaluations/general_tasks.py",
+        "symbol": "TASKS",
+        "task_sha256": "ee1682ce8a139e376fbfb0fce4ef55a565b9532800b76f519d1e8199a01d3f12"
+      },
+      "provenance": {
+        "kind": "authored-fictional",
+        "production_incident": false,
+        "human_reviewed": false
+      },
+      "paired_task_ids": [
+        "reserved-01-status-alternate-bug"
+      ],
+      "public_input_sha256": "eccbb8705bff2a8a4d6a6f21d0f49e1f243b18b1f80c1487f02ce7bb0b095d5a",
+      "public_evidence_requirements": [
+        {
+          "id": "initial",
+          "after_action": "open",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "todo",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "saved",
+          "after_action": "save",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "doing",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "reloaded",
+          "after_action": "reload",
+          "checks": [
+            {
+              "probe": "status",
+              "op": "equals",
+              "value": "doing",
+              "role": "requirement"
+            }
+          ]
+        }
+      ],
+      "golden": {
+        "initial_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "final_state": {
+          "status": "doing",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "http_requests": [
+          {
+            "method": "GET",
+            "path": "/board",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "GET",
+            "path": "/api/status",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "POST",
+            "path": "/api/status",
+            "status_code": 200,
+            "body": {
+              "status": "doing"
+            },
+            "effect": {
+              "persisted_status": "doing"
+            }
+          },
+          {
+            "method": "GET",
+            "path": "/board",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "GET",
+            "path": "/api/status",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          }
+        ],
+        "authorization_rejection": null,
+        "mutation_request_count": 1,
+        "state_changed": true,
+        "expected_verdict": "not_reproduced"
+      }
+    },
+    {
+      "id": "reserved-03-search-alternate-bug",
+      "task_revision": 1,
+      "family": "search",
+      "split": "reserved-transfer",
+      "source": {
+        "path": "evaluations/general_tasks.py",
+        "symbol": "TASKS",
+        "task_sha256": "9c0ecaca3b3965678e92e737ba3337a2a644e7ad05d75e9262d1fdbc7b17cd6a"
+      },
+      "provenance": {
+        "kind": "authored-fictional",
+        "production_incident": false,
+        "human_reviewed": false
+      },
+      "paired_task_ids": [
+        "reserved-04-search-alternate-fixed"
+      ],
+      "public_input_sha256": "3ce88002bc3304dc26d5bbf6522c9d7077b89a7d8acb94e79c67e63dd1720a40",
+      "public_evidence_requirements": [
+        {
+          "id": "initial",
+          "after_action": "open",
+          "checks": [
+            {
+              "probe": "results",
+              "op": "equals",
+              "value": "Not searched",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "query_entered",
+          "after_action": "type_query",
+          "checks": [
+            {
+              "probe": "query",
+              "op": "equals",
+              "value": "gamma",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "searched",
+          "after_action": "search",
+          "checks": [
+            {
+              "probe": "results",
+              "op": "equals",
+              "value": "gamma",
+              "role": "requirement"
+            }
+          ]
+        }
+      ],
+      "golden": {
+        "initial_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "final_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [
+            "alpha",
+            "beta",
+            "gamma"
+          ],
+          "search_query": "gamma"
+        },
+        "http_requests": [
+          {
+            "method": "GET",
+            "path": "/search",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "GET",
+            "path": "/api/search?q=gamma",
+            "status_code": 200,
+            "body": null,
+            "effect": {
+              "results": [
+                "alpha",
+                "beta",
+                "gamma"
+              ],
+              "query": "gamma"
+            }
+          }
+        ],
+        "authorization_rejection": null,
+        "mutation_request_count": 0,
+        "state_changed": true,
+        "expected_verdict": "confirmed"
+      }
+    },
+    {
+      "id": "reserved-04-search-alternate-fixed",
+      "task_revision": 1,
+      "family": "search",
+      "split": "reserved-transfer",
+      "source": {
+        "path": "evaluations/general_tasks.py",
+        "symbol": "TASKS",
+        "task_sha256": "72a2be5b1e7b638b93dddd8bc32bf652f6ec57b0627fe1a5c5968956d9c8c7d4"
+      },
+      "provenance": {
+        "kind": "authored-fictional",
+        "production_incident": false,
+        "human_reviewed": false
+      },
+      "paired_task_ids": [
+        "reserved-03-search-alternate-bug"
+      ],
+      "public_input_sha256": "b461d1bf9a1b034b112fd1ee5cb883100d45e92e7844b7f637f5098deaf5ae15",
+      "public_evidence_requirements": [
+        {
+          "id": "initial",
+          "after_action": "open",
+          "checks": [
+            {
+              "probe": "results",
+              "op": "equals",
+              "value": "Not searched",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "query_entered",
+          "after_action": "type_query",
+          "checks": [
+            {
+              "probe": "query",
+              "op": "equals",
+              "value": "gamma",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "searched",
+          "after_action": "search",
+          "checks": [
+            {
+              "probe": "results",
+              "op": "equals",
+              "value": "gamma",
+              "role": "requirement"
+            }
+          ]
+        }
+      ],
+      "golden": {
+        "initial_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "final_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [
+            "gamma"
+          ],
+          "search_query": "gamma"
+        },
+        "http_requests": [
+          {
+            "method": "GET",
+            "path": "/search",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "GET",
+            "path": "/api/search?q=gamma",
+            "status_code": 200,
+            "body": null,
+            "effect": {
+              "results": [
+                "gamma"
+              ],
+              "query": "gamma"
+            }
+          }
+        ],
+        "authorization_rejection": null,
+        "mutation_request_count": 0,
+        "state_changed": true,
+        "expected_verdict": "not_reproduced"
+      }
+    },
+    {
+      "id": "reserved-05-quantity-zero-bug",
+      "task_revision": 1,
+      "family": "quantity",
+      "split": "reserved-transfer",
+      "source": {
+        "path": "evaluations/general_tasks.py",
+        "symbol": "TASKS",
+        "task_sha256": "56d75f8b0b814e73b1d7887816799be77fb93f2ec960b7331ae4db554ea6c88e"
+      },
+      "provenance": {
+        "kind": "authored-fictional",
+        "production_incident": false,
+        "human_reviewed": false
+      },
+      "paired_task_ids": [
+        "reserved-06-quantity-zero-fixed"
+      ],
+      "public_input_sha256": "d6416a113ec90bb935d81fa79e8a3f7b7feab025da91bba1fc459e0ace47484e",
+      "public_evidence_requirements": [
+        {
+          "id": "initial",
+          "after_action": "open",
+          "checks": [
+            {
+              "probe": "quantity",
+              "op": "equals",
+              "value": "1",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "invalid_entered",
+          "after_action": "type_quantity",
+          "checks": [
+            {
+              "probe": "input",
+              "op": "equals",
+              "value": "0",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "applied",
+          "after_action": "apply",
+          "checks": [
+            {
+              "probe": "quantity",
+              "op": "equals",
+              "value": "1",
+              "role": "requirement"
+            }
+          ]
+        }
+      ],
+      "golden": {
+        "initial_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "final_state": {
+          "status": "todo",
+          "quantity": 0,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "http_requests": [
+          {
+            "method": "GET",
+            "path": "/quantity",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "POST",
+            "path": "/api/quantity",
+            "status_code": 200,
+            "body": {
+              "quantity": 0
+            },
+            "effect": {
+              "accepted": true,
+              "quantity": 0,
+              "message": "Saved"
+            }
+          }
+        ],
+        "authorization_rejection": null,
+        "mutation_request_count": 1,
+        "state_changed": true,
+        "expected_verdict": "confirmed"
+      }
+    },
+    {
+      "id": "reserved-06-quantity-zero-fixed",
+      "task_revision": 1,
+      "family": "quantity",
+      "split": "reserved-transfer",
+      "source": {
+        "path": "evaluations/general_tasks.py",
+        "symbol": "TASKS",
+        "task_sha256": "f7b32e9220ada41831e4d109e8979c092535db5d2e7573182cb39be98be894dd"
+      },
+      "provenance": {
+        "kind": "authored-fictional",
+        "production_incident": false,
+        "human_reviewed": false
+      },
+      "paired_task_ids": [
+        "reserved-05-quantity-zero-bug"
+      ],
+      "public_input_sha256": "1303c78ffc8a6e8b5bde02b74382c4c7a33413ef6aa504416c95e4e11eca6cec",
+      "public_evidence_requirements": [
+        {
+          "id": "initial",
+          "after_action": "open",
+          "checks": [
+            {
+              "probe": "quantity",
+              "op": "equals",
+              "value": "1",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "invalid_entered",
+          "after_action": "type_quantity",
+          "checks": [
+            {
+              "probe": "input",
+              "op": "equals",
+              "value": "0",
+              "role": "precondition"
+            }
+          ]
+        },
+        {
+          "id": "applied",
+          "after_action": "apply",
+          "checks": [
+            {
+              "probe": "quantity",
+              "op": "equals",
+              "value": "1",
+              "role": "requirement"
+            }
+          ]
+        }
+      ],
+      "golden": {
+        "initial_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "final_state": {
+          "status": "todo",
+          "quantity": 1,
+          "unrelated": "unchanged",
+          "search_results": [],
+          "search_query": null
+        },
+        "http_requests": [
+          {
+            "method": "GET",
+            "path": "/quantity",
+            "status_code": 200,
+            "body": null,
+            "effect": null
+          },
+          {
+            "method": "POST",
+            "path": "/api/quantity",
+            "status_code": 200,
+            "body": {
+              "quantity": 0
+            },
+            "effect": {
+              "accepted": false,
+              "quantity": 1,
+              "message": "Quantity must be positive"
+            }
+          }
+        ],
+        "authorization_rejection": null,
+        "mutation_request_count": 1,
+        "state_changed": false,
+        "expected_verdict": "not_reproduced"
+      }
+    }
+  ]
+}
