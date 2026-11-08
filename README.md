@@ -1,4 +1,15 @@
-# Browser bug validator, v0.3.0
+# Browser bug validator, v0.4.0 evaluated prototype
+
+
+## New: reusable model-driven loop
+
+v0.4 adds `run-general`: a persistent **observe → decide → browser action → observe** loop. The model reads different reports and relevant KB entries, selects one explicitly permitted action at a time, and receives actual browser evidence before deciding again. Three controlled fixture families cover status persistence, search correctness, and invalid quantity validation.
+
+**Final development result:** the configured local model passed **5 of 16 full browser-validation trials**. Overall it passed 11/22, including six correct refusal/access controls. The scripted browser control passed 11/11 and all 136 unit tests passed, but those do not establish model reliability. This remains an **unreliable research prototype**, not a finished general-purpose validator. See [the final results and limitations](docs/final-validation.md).
+
+Operator-authored capabilities and evidence checks are still required. This is a reusable controlled-fixture foundation, not an unrestricted agent for arbitrary websites. The original v0.3 workflow below is preserved, and its recorded results do not transfer to the new loop.
+
+Start with the [general-agent contract and commands](docs/general-agent.md) and [v0.4 verification record](docs/general-results.md). The new development/transfer harness is `python -m evaluations.general_run`; its scripted control, unit doubles, and real-model results are reported separately.
 
 An original runnable agent, executable skill, disposable browser app, and regression evaluator built together. This is an original implementation, with no proprietary product code or private product data.
 
@@ -7,7 +18,8 @@ The narrow first workflow is a fictional task board: a reported status change is
 ## What is in the box
 
 - `bug_validator/`: Python orchestrator, KB retrieval, real local Ollama model adapter, and bounded Node/Playwright browser controller.
-- `skills/browser-bug-validator/SKILL.md`: runnable skill entrypoint; loaded by model mode and fingerprinted per run.
+- `skills/browser-bug-validator/SKILL.md`: legacy operator entrypoint, fingerprinted but not injected into model calls; its plan/assess references are the legacy runtime prompts.
+- `skills/browser-bug-validator-general/SKILL.md`: new general-loop operator entrypoint; its runtime prompt is defined and fingerprinted in `bug_validator/general.py`.
 - `fixture_app/`: real HTTP/JavaScript task board with buggy, fixed, blocked, distractor, and untrusted-note variants. The evaluator owns the hidden variant, final state and server audit log.
 - `evaluations/`: tasks, repeated trials, deterministic graders, descriptive metrics, baseline/candidate comparison, independent semantic grading and human calibration workflow.
 - `tests/`: agent contract/safety and evaluator negative controls. Unit tests with mocked browser/model are labeled as such; they do not establish real-browser or real-model quality.
@@ -31,7 +43,7 @@ Run from this directory. If Playwright or Chrome is not discoverable, provide `-
 
 Save this as `browser.local.json` only if those installed paths exist on your machine. On Linux with discoverable Playwright, `/usr/bin/chromium` is detected automatically. The browser sandbox stays enabled. Restricted containers may prevent browser startup: that is an execution blocker, not a passing reproduction.
 
-## Start here
+## Preserved v0.3 quick start
 
 ```bash
 python -m unittest discover -s tests -v
@@ -62,7 +74,7 @@ python -m bug_validator run --bug bug.json --kb kb.json --base-url http://127.0.
 
 Input, model and browser contracts: [docs/contracts.md](docs/contracts.md). Evaluation operations and limitations: [docs/evaluation.md](docs/evaluation.md).
 
-## Evaluation design
+## Preserved v0.3 evaluation design
 
 The development suite covers a real persistence bug, fixed behavior, denied access, an unrelated warning, a malicious imported note, missing target, unapproved target and missing expected status. Private expected verdicts are never passed to the agent. The harness separately observes server-side mutations and reloads, so the agent's own success claim is insufficient.
 
@@ -78,7 +90,7 @@ These are application-level controls for a small controlled fixture, not a harde
 
 The first workflow is intentionally narrow. It is not a general-purpose defect agent for arbitrary websites, does not prove a production bug is absent, and does not claim a fresh holdout or calibrated semantic score. A separate safe public-site smoke check, if performed, must be labeled separately until there is a corresponding authorized adapter and regression suite.
 
-## Verified development results
+## Original v0.3 verified development results
 
 The v0.3 system passed **16/16 repeated development trials** across eight known cases (two trials per case), using an actual local `llama3.1:8b` model and isolated Chrome browser. The deterministic browser reference passed 8/8. All 66 unit tests passed.
 
@@ -96,4 +108,4 @@ Do not commit completed reviewer labels, browser captures, local configuration, 
 
 ## Provenance and license
 
-Original source and the fictional examples are provided under [MIT](LICENSE). Browser, Playwright, Ollama and model weights are not redistributed and retain their own licenses. The repository includes small original fictional regression fixtures, not production data or any proprietary library. See [provenance](docs/provenance.md).
+Original source and the fictional examples are provided under [MIT](LICENSE). Browser, Playwright, Ollama and model weights are not redistributed and retain their own licenses. The repository includes fictional regression inputs and preserved model-generated responses from those trials, not production data or any proprietary library. See [provenance](docs/provenance.md).

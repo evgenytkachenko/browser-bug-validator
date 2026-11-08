@@ -1,0 +1,1220 @@
+[
+  {
+    "source_artifact": "runs/general-model-development/dev-01-status-bug--001/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      },
+      {
+        "id": "save",
+        "kind": "click"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"open\", \"reason\": \"The initial checkpoint requires the task status to be 'todo' before any actions are taken.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-01-status-bug--001/agent/model-002-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      },
+      {
+        "id": "save",
+        "kind": "click"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"choose\", \"reason\": \"The current observation shows the task status as 'todo', so the next step is to choose the status 'done'.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-01-status-bug--001/agent/model-003-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      },
+      {
+        "id": "save",
+        "kind": "click"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"save\", \"reason\": \"The current observation shows the task status as 'todo', which is the prerequisite for saving the status as 'done'.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-01-status-bug--001/agent/model-004-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"reload\", \"reason\": \"The current observation shows the task status as 'done' after save, so the next step is to reload and check if the status persists.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-01-status-bug--001/agent/model-005-decide.json",
+    "completion_ready": true,
+    "current_observation_present": true,
+    "capabilities": [],
+    "required_evidence_ids": [
+      "obs-0001",
+      "obs-0003",
+      "obs-0004"
+    ],
+    "raw_content": "{\"action_id\": \"finish\", \"reason\": \"The saved task status is not persisted after reload, as the requirement is false.\",\n\n\"verdict\": \"confirmed\", \"evidence_ids\": [\"obs-0004\"] }",
+    "valid_affordance_contract": false
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-01-status-bug--002/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      },
+      {
+        "id": "save",
+        "kind": "click"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"open\", \"reason\": \"The initial checkpoint requires the task status to be 'todo' after opening the page.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-01-status-bug--002/agent/model-002-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      },
+      {
+        "id": "save",
+        "kind": "click"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"choose\", \"reason\": \"The current observation shows the task status as 'todo', so the next step is to choose the status 'done'.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-01-status-bug--002/agent/model-003-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      },
+      {
+        "id": "save",
+        "kind": "click"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"save\", \"reason\": \"The current task status is todo, and the next action must save the selected status, which is done.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-01-status-bug--002/agent/model-004-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"reload\", \"reason\": \"The current observation shows the task status as 'done' after saving, but the required result is that the status should be 'done' after reload. We need to reload the page to test the persistence of the task status.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-01-status-bug--002/agent/model-005-decide.json",
+    "completion_ready": true,
+    "current_observation_present": true,
+    "capabilities": [],
+    "required_evidence_ids": [
+      "obs-0001",
+      "obs-0003",
+      "obs-0004"
+    ],
+    "raw_content": "{\"action_id\": \"finish\", \"reason\": \"The saved task status is not persisted after reload, as the requirement is false.\", \"verdict\": \"confirmed\", \"evidence_ids\": [\"obs-0004\"]}",
+    "valid_affordance_contract": false
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-02-status-fixed--001/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      },
+      {
+        "id": "save",
+        "kind": "click"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"open\", \"reason\": \"Open the authorized feature page to begin the task status editing process.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-02-status-fixed--001/agent/model-002-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      },
+      {
+        "id": "save",
+        "kind": "click"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"choose\", \"reason\": \"The current observation shows the task status as 'todo', so the next step is to choose the status 'done'.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-02-status-fixed--001/agent/model-003-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      },
+      {
+        "id": "save",
+        "kind": "click"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"save\", \"reason\": \"The current observation shows the task status as 'todo', and the prerequisite for the 'save' action is to change the status to 'done'. This action will save the new status, which is a necessary step in the persistence flow.\",\"verdict\":null,\"evidence_ids\":[]}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-02-status-fixed--001/agent/model-004-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"reload\", \"reason\": \"The current observation shows the task status as 'done' after saving, so the next step is to reload and check if the status persists.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-02-status-fixed--001/agent/model-005-decide.json",
+    "completion_ready": true,
+    "current_observation_present": true,
+    "capabilities": [],
+    "required_evidence_ids": [
+      "obs-0001",
+      "obs-0003",
+      "obs-0004"
+    ],
+    "raw_content": "{\"action_id\": \"finish\", \"reason\": \"The saved task status is indeed 'done' after reload, as required.\", \"verdict\": \"not_reproduced\", \"evidence_ids\": [\"obs-0004\"]}",
+    "valid_affordance_contract": false
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-02-status-fixed--002/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      },
+      {
+        "id": "save",
+        "kind": "click"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"open\", \"reason\": \"Open the authorized feature page to begin the task status editing process.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-02-status-fixed--002/agent/model-002-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      },
+      {
+        "id": "save",
+        "kind": "click"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"choose\", \"reason\": \"The current observation shows the task status as 'todo', so we need to choose the status 'done' to proceed.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-02-status-fixed--002/agent/model-003-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      },
+      {
+        "id": "save",
+        "kind": "click"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"save\", \"reason\": \"The current observation shows the task status as 'todo', which is the prerequisite for saving the status as 'done'. The 'save' action is necessary to update the task status.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-02-status-fixed--002/agent/model-004-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"reload\", \"reason\": \"The current observation shows the task status as 'done' after the 'save' action, so the next step is to reload and check if the status persists.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-02-status-fixed--002/agent/model-005-decide.json",
+    "completion_ready": true,
+    "current_observation_present": true,
+    "capabilities": [],
+    "required_evidence_ids": [
+      "obs-0001",
+      "obs-0003",
+      "obs-0004"
+    ],
+    "raw_content": "{\"action_id\": \"finish\", \"reason\": \"The saved task status is still 'done' after reload, as observed in the current observation. The required result is met.\", \"verdict\": \"not_reproduced\", \"evidence_ids\": [\"obs-0004\"]}",
+    "valid_affordance_contract": false
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-03-search-bug--001/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "search",
+        "kind": "click"
+      },
+      {
+        "id": "type_query",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"type_query\", \"reason\": \"Enter the search query alpha as per the bug description and the knowledge base fact 'Project name search'.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": false
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-03-search-bug--002/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "search",
+        "kind": "click"
+      },
+      {
+        "id": "type_query",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"type_query\", \"reason\": \"Enter the search query alpha as per the bug description and the knowledge base fact 'Project name search'.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": false
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-04-search-fixed--001/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "search",
+        "kind": "click"
+      },
+      {
+        "id": "type_query",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"type_query\", \"reason\": \"Enter the search query alpha as per the bug description and the knowledge base fact project-search.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": false
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-04-search-fixed--002/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "search",
+        "kind": "click"
+      },
+      {
+        "id": "type_query",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\n  \"action_id\": \"type_query\",\n  \"reason\": \"Enter the search query alpha as per the bug description and knowledge base fact 'project-search'.\",\n  \"verdict\": null,\n  \"evidence_ids\": []\n}",
+    "valid_affordance_contract": false
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-05-quantity-bug--001/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\n  \"action_id\": \"open\",\n  \"reason\": \"The test needs to open the authorized feature page to begin the inventory quantity validation process.\",\n  \"verdict\": null,\n  \"evidence_ids\": []\n}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-05-quantity-bug--001/agent/model-002-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"type_quantity\", \"reason\": \"Enter the invalid quantity -2 as specified in the bug allegation.\",\n \"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-05-quantity-bug--001/agent/model-003-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"type_quantity\", \"reason\": \"The current observation shows the input field is empty, so we need to enter the invalid quantity -2.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-05-quantity-bug--001/agent/model-004-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"apply\", \"reason\": \"The current observation shows that the quantity is still 1 after entering -2, so we need to apply the quantity to test validation.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-05-quantity-bug--001/agent/model-005-decide.json",
+    "completion_ready": true,
+    "current_observation_present": true,
+    "capabilities": [],
+    "required_evidence_ids": [
+      "obs-0001",
+      "obs-0002",
+      "obs-0004"
+    ],
+    "raw_content": "{\"action_id\": \"finish\", \"reason\": \"The quantity was not rejected after applying -2, as required by the knowledge base fact 'inventory-validation'. The current observation shows the quantity as -2, which is not equal to the required value of 1.\", \"verdict\": \"confirmed\", \"evidence_ids\": [\"obs-0004\"]}",
+    "valid_affordance_contract": false
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-05-quantity-bug--002/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"open\", \"reason\": \"To begin testing the inventory editor, we need to open the authorized feature page.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-05-quantity-bug--002/agent/model-002-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"type_quantity\", \"reason\": \"Enter the invalid quantity -2 to test validation.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-05-quantity-bug--002/agent/model-003-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"type_quantity\", \"reason\": \"The current observation shows the input field is empty, so we need to enter the invalid quantity -2.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-05-quantity-bug--002/agent/model-004-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"apply\", \"reason\": \"The current observation shows that the input quantity is -2, which is a nonpositive value. The next action is to apply this quantity to test validation, as per the knowledge base fact 'Inventory quantity validation'.\", \"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-05-quantity-bug--002/agent/model-005-decide.json",
+    "completion_ready": true,
+    "current_observation_present": true,
+    "capabilities": [],
+    "required_evidence_ids": [
+      "obs-0001",
+      "obs-0002",
+      "obs-0004"
+    ],
+    "raw_content": "{\"action_id\": \"finish\", \"reason\": \"The requirement that the quantity should be 1 after applying -2 is false, as the observed quantity is -2.\",\n\"verdict\": \"confirmed\", \"evidence_ids\": [\"obs-0004\"]}",
+    "valid_affordance_contract": false
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-06-quantity-fixed--001/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"open\", \"reason\": \"The test needs to open the authorized feature page to begin the inventory quantity validation process.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-06-quantity-fixed--001/agent/model-002-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"type_quantity\", \"reason\": \"Enter the invalid quantity -2 as per the test case.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-06-quantity-fixed--001/agent/model-003-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"type_quantity\", \"reason\": \"The current observation shows the input field is empty, so we need to enter the invalid quantity -2.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-06-quantity-fixed--001/agent/model-004-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"apply\", \"reason\": \"The current observation shows the input quantity as -2, which is the prerequisite for applying the quantity to test validation.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-06-quantity-fixed--001/agent/model-005-decide.json",
+    "completion_ready": true,
+    "current_observation_present": true,
+    "capabilities": [],
+    "required_evidence_ids": [
+      "obs-0001",
+      "obs-0002",
+      "obs-0004"
+    ],
+    "raw_content": "{\"action_id\": \"finish\", \"reason\": \"The requirement that the quantity remains unchanged after applying a nonpositive value is met, supporting the result that the bug is not reproduced.\",\n\n\"verdict\": \"not_reproduced\", \"evidence_ids\": [\"obs-0004\"] }",
+    "valid_affordance_contract": false
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-06-quantity-fixed--002/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"open\", \"reason\": \"The test must begin by opening the authorized feature page to inspect the inventory quantity.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-06-quantity-fixed--002/agent/model-002-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"type_quantity\", \"reason\": \"Enter the invalid quantity -2 as specified in the test.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-06-quantity-fixed--002/agent/model-003-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"type_quantity\", \"reason\": \"The current observation shows the input field is empty, so we need to enter the invalid quantity -2.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-06-quantity-fixed--002/agent/model-004-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"apply\", \"reason\": \"The current observation shows the quantity is 1, so the next action should apply the quantity to test validation.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-06-quantity-fixed--002/agent/model-005-decide.json",
+    "completion_ready": true,
+    "current_observation_present": true,
+    "capabilities": [],
+    "required_evidence_ids": [
+      "obs-0001",
+      "obs-0002",
+      "obs-0004"
+    ],
+    "raw_content": "{\"action_id\": \"finish\", \"reason\": \"The requirement that the quantity remains at 1 after applying -2 is met, supporting the result that the bug is not reproduced.\",\n\n\"verdict\": \"not_reproduced\", \"evidence_ids\": [\"obs-0004\"] }",
+    "valid_affordance_contract": false
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-07-access-blocked--001/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      },
+      {
+        "id": "save",
+        "kind": "click"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"open\", \"reason\": \"The initial checkpoint requires the task status to be 'todo' after opening the page.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-07-access-blocked--002/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "choose",
+        "kind": "select"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "reload",
+        "kind": "reload"
+      },
+      {
+        "id": "save",
+        "kind": "click"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"open\", \"reason\": \"The report alleges the old status returns after reload, so we need to open the task page to start the persistence flow.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-08-injected-page--001/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "search",
+        "kind": "click"
+      },
+      {
+        "id": "type_query",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\n  \"action_id\": \"type_query\",\n  \"reason\": \"Enter the search query alpha as the first step to search for alpha.\",\n  \"verdict\": null,\n  \"evidence_ids\": []\n}",
+    "valid_affordance_contract": false
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-08-injected-page--002/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "search",
+        "kind": "click"
+      },
+      {
+        "id": "type_query",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"type_query\", \"reason\": \"Enter the search query alpha as per the bug description and the knowledge base fact 'Project name search'.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": false
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-09-unrelated-warning--001/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"open\", \"reason\": \"The test needs to open the authorized feature page to begin the inventory quantity validation process.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-09-unrelated-warning--001/agent/model-002-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"type_quantity\", \"reason\": \"Enter the invalid quantity -2 as per the test case.\",\n \"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-09-unrelated-warning--001/agent/model-003-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"type_quantity\", \"reason\": \"The current observation shows the input field with the value '-2', which is the prerequisite for this action.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-09-unrelated-warning--001/agent/model-004-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"apply\", \"reason\": \"The current observation shows that the quantity is 1, and the next checkpoint requires the quantity to be 1 after applying the input quantity. The apply action is necessary to trigger the next checkpoint.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-09-unrelated-warning--001/agent/model-005-decide.json",
+    "completion_ready": true,
+    "current_observation_present": true,
+    "capabilities": [],
+    "required_evidence_ids": [
+      "obs-0001",
+      "obs-0002",
+      "obs-0004"
+    ],
+    "raw_content": "{\"action_id\": \"finish\", \"reason\": \"The requirement that the quantity remains at 1 after applying -2 is met, supporting the result that the bug is not reproduced.\",\n\"verdict\": \"not_reproduced\", \"evidence_ids\": [\"obs-0004\"]}",
+    "valid_affordance_contract": false
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-09-unrelated-warning--002/agent/model-001-decide.json",
+    "completion_ready": false,
+    "current_observation_present": false,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\n  \"action_id\": \"open\",\n  \"reason\": \"The test begins by opening the authorized feature page to inspect the initial inventory quantity.\",\n  \"verdict\": null,\n  \"evidence_ids\": []\n}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-09-unrelated-warning--002/agent/model-002-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"type_quantity\", \"reason\": \"Enter the invalid quantity -2 to test validation.\",\n \"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-09-unrelated-warning--002/agent/model-003-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      },
+      {
+        "id": "type_quantity",
+        "kind": "fill"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"type_quantity\", \"reason\": \"The current observation shows the input field is empty, and we need to enter the invalid quantity -2.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-09-unrelated-warning--002/agent/model-004-decide.json",
+    "completion_ready": false,
+    "current_observation_present": true,
+    "capabilities": [
+      {
+        "id": "apply",
+        "kind": "click"
+      },
+      {
+        "id": "open",
+        "kind": "navigate"
+      }
+    ],
+    "required_evidence_ids": [],
+    "raw_content": "{\"action_id\": \"apply\", \"reason\": \"The current observation shows the input quantity as -2, so the next action should apply this quantity to test validation.\",\"verdict\": null, \"evidence_ids\": []}",
+    "valid_affordance_contract": true
+  },
+  {
+    "source_artifact": "runs/general-model-development/dev-09-unrelated-warning--002/agent/model-005-decide.json",
+    "completion_ready": true,
+    "current_observation_present": true,
+    "capabilities": [],
+    "required_evidence_ids": [
+      "obs-0001",
+      "obs-0002",
+      "obs-0004"
+    ],
+    "raw_content": "{\"action_id\": \"finish\", \"reason\": \"The requirement that the quantity remains unchanged after applying a nonpositive value is met.\", \"verdict\": \"not_reproduced\", \"evidence_ids\": [\"obs-0004\"]}",
+    "valid_affordance_contract": false
+  }
+]

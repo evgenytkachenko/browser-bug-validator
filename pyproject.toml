@@ -1,7 +1,7 @@
 [project]
 name = "browser-bug-validator"
-version = "0.3.0"
-description = "Original browser bug-validation agent and evaluation lab for isolated fictional fixtures"
+version = "0.4.0"
+description = "Bounded model-driven browser bug-validation loop and controlled evaluation lab"
 requires-python = ">=3.10"
 dependencies = []
 
