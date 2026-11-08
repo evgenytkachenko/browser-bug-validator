@@ -1,0 +1,129 @@
+name: Token-free evaluation controls
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# No API keys, cloud identity, write permissions, or privileged PR trigger.
+permissions:
+  contents: read
+
+concurrency:
+  group: token-free-evals-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  contracts:
+    name: Unit and HTTP golden controls (no model)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Check Python and browser-controller syntax
+        run: |
+          python -m compileall -q bug_validator evaluations fixture_app ci tests calibration-starter
+          node --check bug_validator/browser_bridge.cjs
+          node --check bug_validator/general_bridge.cjs
+      - name: Run unit and contract tests
+        run: |
+          mkdir -p runs/ci
+          python -m unittest discover -s tests -v 2>&1 | tee runs/ci/unit-tests.txt
+      - name: Run calibration tooling tests (synthetic, not human calibration)
+        run: python -m unittest discover -s calibration-starter -p 'test_*.py' -v 2>&1 | tee runs/ci/calibration-tests.txt
+      - name: Validate catalog and execute development HTTP goldens
+        run: |
+          python -m evaluations.task_catalog validate
+          python -m evaluations.task_catalog verify --receipt runs/ci/http-goldens.json
+      - name: Retain only test logs and fictional HTTP receipt
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: unit-and-http-controls
+          path: |
+            runs/ci/unit-tests.txt
+            runs/ci/calibration-tests.txt
+            runs/ci/http-goldens.json
+          retention-days: 7
+          if-no-files-found: warn
+
+  scripted-browser:
+    name: Scripted real-browser control (no model)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Install locked Playwright and its matching Chromium
+        run: |
+          npm ci --prefix ci --ignore-scripts --no-audit --no-fund
+          node ci/node_modules/playwright/cli.js install --with-deps chromium
+      - name: Configure isolated headless browser (sandbox remains enabled)
+        run: |
+          mkdir -p runs/ci
+          node <<'NODE'
+          const fs = require('node:fs');
+          const modulePath = require.resolve('./ci/node_modules/playwright');
+          const playwright = require(modulePath);
+          fs.writeFileSync('browser.local.json', JSON.stringify({
+            node_executable: process.execPath,
+            playwright_module: modulePath,
+            executable_path: playwright.chromium.executablePath(),
+            headless: true,
+            timeout_ms: 8000,
+            process_timeout_seconds: 60
+          }, null, 2));
+          NODE
+      - name: Execute all 11 development tasks with scripted decisions
+        run: |
+          python -m evaluations.general_run \
+            --backend scripted-control --split development --trials 1 \
+            --browser-config browser.local.json --timeout 120 \
+            --output runs/ci/scripted-browser | tee runs/ci/scripted-browser.txt
+      - name: Replay objective grades and require full browser participation
+        run: python -m ci.verify_control runs/ci/scripted-browser | tee runs/ci/browser-gate.json
+      - name: Record measurement limits
+        if: always()
+        run: |
+          {
+            echo '### Scripted browser integration control'
+            echo 'This job uses real Chromium and scripted decisions, not a language model.'
+            echo 'It covers the 11 development tasks only. Reserved transfer cases are not executed.'
+            echo 'A failed launch, incomplete run, failed objective check, or absent browser evidence fails the job.'
+            echo 'Model reliability, semantic judging, and human calibration remain unmeasured here.'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Retain only control summaries (no captures or raw agent runs)
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: scripted-browser-control
+          path: |
+            runs/ci/scripted-browser.txt
+            runs/ci/browser-gate.json
+            runs/ci/scripted-browser/summary.json
+            runs/ci/scripted-browser/manifest.json
+            runs/ci/scripted-browser/trials.jsonl
+          retention-days: 7
+          if-no-files-found: warn

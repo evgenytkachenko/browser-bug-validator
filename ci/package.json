@@ -1,0 +1,8 @@
+{
+  "name": "browser-bug-validator-ci",
+  "private": true,
+  "description": "Pinned browser dependency for token-free CI integration controls",
+  "devDependencies": {
+    "playwright": "1.65.0"
+  }
+}
