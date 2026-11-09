@@ -1,5 +1,13 @@
 # Browser bug validator, v0.5.0 evaluation foundation
 
+## Select a native coding agent
+
+Use the project-scoped `browser-bug-validator` agent in Claude Code or Codex.
+[Selection, required inputs, and scope](docs/native-agents.md) explains both native
+formats. These are operator wrappers around the existing local Ollama/browser
+runner, not new cloud-model backends or arbitrary-site automation. No global
+installation or permission changes are required.
+
 ## Explore the recorded trace
 
 Open [the local trace viewer](trace-viewer/index.html) to compare three real,
