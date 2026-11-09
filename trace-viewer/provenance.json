@@ -1,0 +1,74 @@
+{
+  "base_commit": "b585691355c3f2be769cbf2f9e243202e50b7431",
+  "source_kind": "Historical actual local-model and real-browser development trials on a fictional fixture; text-only transfer.",
+  "runs": {
+    "v02": {
+      "manifest_sha256": "e7648f68a653d83c4400a1bf898629b615d1aabdc43ca1c1f824adc9023e2673",
+      "trials": {
+        "dev-02-fixed--001": {
+          "agent/report.json": "086f7e33b223291badea73e0e5b77a385c14acaf0f365744f6c984b5266a85f9",
+          "agent/trace.jsonl": "1f6977cb84383c9d3c57110b00095fe436cb11c3997b42eeaf989abec17e5f25",
+          "public-bug.json": "66ed6923ed10c81ac599c3278b2e5086a93b8bb56348e52f67ad2c6d85aa7318",
+          "deterministic-grade.json": "8467c12c1a1dcf8397b5dab30c017d0f7f2b3b3cf1747809c8486c4679b58893",
+          "server-journal.json": "843629588babafeaaa59fca0f5ed31e82a1492b53ac69c9815c7055f0624de63",
+          "state-before.json": "e0fcdb7a811d753619e63e32cc3c9451e0b91ceb6e5fa34d1eb351e39708de4b",
+          "state-after.json": "95e3601a21ef418a6ea9b1db3d54e922c92ad43e844f83183c288ec2e8d1f504",
+          "trial.json": "a8e9414266f0db897c2b9242c566458bf69cb1f4660452cd87ac017784ca7b9c"
+        },
+        "dev-01-persistence-bug--001": {
+          "agent/report.json": "d9ef3397c0cbeb69708d1bb7b367a7734789d2decd56ccb804a92f13ac8aac14",
+          "agent/trace.jsonl": "52c348e33381b3a476e83c5c0fd8f7410de397d903b64febdc245a3ee22408ec",
+          "public-bug.json": "d2d0576b445c09bfdb81b90c8f6120f3e50ece081069560309515131a30f5c1e",
+          "deterministic-grade.json": "6c3c5110f2c15819efa0cb52179d384d056e4b95770653d0a2e0cd3d17081f67",
+          "server-journal.json": "40e5c8ebe4d57dbdb9eff522bd6d5785ae4bef62db9201c36adb16eb0a4e25e0",
+          "state-before.json": "e0fcdb7a811d753619e63e32cc3c9451e0b91ceb6e5fa34d1eb351e39708de4b",
+          "state-after.json": "51e29d6991e0bcbacf4685b14368a16d365557befa1e92fed39dda2ef9f2d796",
+          "trial.json": "1c253298c17594a2979b93796da3620d18e32bda9632275938461aa58e03bc05"
+        },
+        "dev-06-missing-target--001": {
+          "agent/report.json": "2d5eca95a1302c7ae6eb79e71588afb2642b39c61bfa25fb818db9bf2a356b49",
+          "public-bug.json": "eb8a2073ed5368cc1e46fc33fa4898b1f0e40dc5938f01f83bb9c5ac24b49eda",
+          "deterministic-grade.json": "215e383cb4795e3ca1443647a99dbf3ad006551d47d137cf83048472892ae689",
+          "server-journal.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "state-before.json": "e0fcdb7a811d753619e63e32cc3c9451e0b91ceb6e5fa34d1eb351e39708de4b",
+          "state-after.json": "e0fcdb7a811d753619e63e32cc3c9451e0b91ceb6e5fa34d1eb351e39708de4b",
+          "trial.json": "a8d2cebb383b7cb6b4606c6fe0ead1cc0a0468be8684a1096170c968e940d2c7"
+        }
+      }
+    },
+    "v03": {
+      "manifest_sha256": "c18e49728073ae16663c13e7a523abb2cbf0839a366ad93aae13fd15ece0df68",
+      "trials": {
+        "dev-02-fixed--001": {
+          "agent/report.json": "8d7aebe7dc25c1b67c8e1bff0d1bed5f96aa3645be49b53d01b78f5a750aa1d7",
+          "agent/trace.jsonl": "7f990d2bd47d5cb33f3fca49c0d01792619f553e7ca10357c935ae8a9fcc6d7f",
+          "public-bug.json": "f3366526ccc56cd51fc83fbaa86cf5b5863bc25dd07a20b48531e78d0e96e705",
+          "deterministic-grade.json": "805213c58b323d933d25d977ad2aee4289a340fd851f79de25505b2984cc2477",
+          "server-journal.json": "ddb2b5e92dc2c2e478fae9422b1adef41420a880fa152bb52433185fa1223800",
+          "state-before.json": "e0fcdb7a811d753619e63e32cc3c9451e0b91ceb6e5fa34d1eb351e39708de4b",
+          "state-after.json": "95e3601a21ef418a6ea9b1db3d54e922c92ad43e844f83183c288ec2e8d1f504",
+          "trial.json": "7140e81c05b5ffdb0caa3becdee0c431caf4fff7f1fda5f45238fcef48687bb7"
+        },
+        "dev-01-persistence-bug--001": {
+          "agent/report.json": "5524f4f45879ff4457aad483db9c9ef53cd3c69ec9a4ec8ba7943c551a49474b",
+          "agent/trace.jsonl": "b5615f93b8bd8d40af4ac51ace366c32efde19a34a457f880750ca3d17af48ad",
+          "public-bug.json": "9bb37aca0efb0e714b1684d9affd3bf24c8d607f0708f28a6e4a7c3f33669ef7",
+          "deterministic-grade.json": "2284217196237a91814370056392205ef41526aa18c7beb29b9df06efd8fda2a",
+          "server-journal.json": "d38b9e4e31e3f23ac33ee8e4450606889fc37156019f5d787fdfe5554105c38c",
+          "state-before.json": "e0fcdb7a811d753619e63e32cc3c9451e0b91ceb6e5fa34d1eb351e39708de4b",
+          "state-after.json": "51e29d6991e0bcbacf4685b14368a16d365557befa1e92fed39dda2ef9f2d796",
+          "trial.json": "02699f4c5210149f1840410f8e78bb9aab840cd3e06f4b5b774e4df90b64054d"
+        },
+        "dev-06-missing-target--001": {
+          "agent/report.json": "c79051ae84d36c32e742ed9a5066e725c629dc5f5f0d60410ea7ea25016a2715",
+          "public-bug.json": "5e1314b4c3dcbbd92cadef728c723da1603bc3aaa731389ee4657b3a8311c2b2",
+          "deterministic-grade.json": "215e383cb4795e3ca1443647a99dbf3ad006551d47d137cf83048472892ae689",
+          "server-journal.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "state-before.json": "e0fcdb7a811d753619e63e32cc3c9451e0b91ceb6e5fa34d1eb351e39708de4b",
+          "state-after.json": "e0fcdb7a811d753619e63e32cc3c9451e0b91ceb6e5fa34d1eb351e39708de4b",
+          "trial.json": "8aca30ac9aad9684c88832e395db1898cb0876f2f1d5cc16b675846e4e68251a"
+        }
+      }
+    }
+  }
+}

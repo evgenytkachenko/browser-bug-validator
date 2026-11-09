@@ -39,6 +39,8 @@ jobs:
           python -m compileall -q bug_validator evaluations fixture_app ci tests calibration-starter
           node --check bug_validator/browser_bridge.cjs
           node --check bug_validator/general_bridge.cjs
+          node --check trace-viewer/app.js
+          node --test trace-viewer/test_app.cjs
       - name: Run unit and contract tests
         run: |
           mkdir -p runs/ci

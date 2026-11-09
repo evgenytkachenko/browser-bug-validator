@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'none'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Explore recorded browser actions, model assessments, final reports and independent checks in a local, text-only research demo.">
+  <title>Trace explorer · Browser bug validator</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="demo-data.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#workspace">Skip to trace</a>
+  <header class="topbar">
+    <a class="brand" href="#case=fixed&view=compare&phase=reloaded&filter=actions"><span class="brand-mark" aria-hidden="true"><span></span></span><span>Browser bug validator<small>TRACE EXPLORER</small></span></a>
+    <div class="header-links"><span class="offline"><span aria-hidden="true">●</span> Offline-ready</span><a href="https://github.com/evgenytkachenko/browser-bug-validator" target="_blank" rel="noopener noreferrer">Repository</a></div>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="title">
+      <div><p class="eyebrow">INSIDE A BROWSER AGENT</p><h1 id="title">A verdict is a claim.<br><span>The trace is the evidence.</span></h1><p class="lede">Follow a real development run from browser actions to the final report. See where the model, the guardrails, and the independent checks disagree.</p></div>
+      <aside class="scope-note"><p class="eyebrow">READ THIS DEMO AS</p><p><strong>Real executions. Fictional app.</strong></p><p>Historical v0.2 → v0.3 trials, recorded 7 Nov 2026. Selected examples, not a benchmark or a new reliability measurement.</p><span class="chip neutral">Text evidence only · No screenshots</span></aside>
+    </section>
+    <div class="layout">
+      <aside class="case-rail" aria-label="Example navigation">
+        <p class="eyebrow">01 / CHOOSE A CASE</p>
+        <div id="case-list"></div>
+        <div class="rail-note"><span class="small-heading">A deliberately small lens</span><p>The agent runtime is unchanged by this viewer. The newer v0.4 general loop still has a recorded baseline of 5/16 full browser-validation trials.</p><a href="https://github.com/evgenytkachenko/browser-bug-validator/blob/b585691355c3f2be769cbf2f9e243202e50b7431/docs/final-validation.md" target="_blank" rel="noopener noreferrer">Read the limitations</a></div>
+      </aside>
+      <section id="workspace" tabindex="-1" aria-label="Trace workspace">
+        <div class="workspace-heading"><div><p class="eyebrow" id="case-meta"></p><h2 id="case-title"></h2></div><span class="chip neutral">Recorded evidence</span></div>
+        <p class="case-lesson" id="case-lesson"></p>
+        <details class="report-input" open><summary>Reported bug <span class="summary-note">The allegation, not observed fact</span></summary><div id="bug-report"></div></details>
+        <div class="toolbar"><div class="segmented" role="group" aria-label="Version view"><button data-view="compare">Compare versions</button><button data-view="baseline">v0.2 only</button><button data-view="candidate">v0.3 only</button></div><span class="toolbar-note">Same fixture · Different agent contract</span></div>
+        <div id="comparison-note" class="comparison-note"></div>
+        <div id="run-grid" class="run-grid"></div>
+        <section class="provenance" aria-labelledby="provenance-title"><div><p class="eyebrow">04 / FOLLOW THE SOURCE</p><h3 id="provenance-title">What this comparison can tell you</h3></div><p>The fixture, evaluator, task definitions, and model artifact match across these runs. The agent and assessment contract changed. v0.3 checks model-extracted facts, then maps the objective verdict in code. This is a system change, not proof of better free-form model reasoning.</p><details><summary>Source fingerprints &amp; evidence limits</summary><div id="provenance-details"></div></details><div class="source-links"><a href="demo.json" download="browser-validator-trace-demo.json">Download curated evidence</a><a href="https://github.com/evgenytkachenko/browser-bug-validator/blob/b585691355c3f2be769cbf2f9e243202e50b7431/docs/results.md" target="_blank" rel="noopener noreferrer">Historical result record</a></div></section>
+      </section>
+    </div>
+  </main>
+  <footer><span>Browser bug validator <span aria-hidden="true">/</span> Research prototype</span><span>No accounts. No model calls. No telemetry.</span></footer>
+  <p id="announcer" class="sr-only" role="status" aria-live="polite"></p>
+  <noscript><p class="no-script">JavaScript is needed to explore this local trace. The complete curated evidence is available in <a href="demo.json">demo.json</a>.</p></noscript>
+</body>
+</html>
