@@ -1,8 +1,8 @@
 {
-  ".github/workflows/evals.yml": "562a6688b03dc0a3e61f74aa202c311c2094c688f5f5b0b003e9ed68d4f8a6fd",
+  ".github/workflows/evals.yml": "82e3cef4663cfc9280fbf2f00d2b240513513a1cbc9e60bc8b09e5e11d9cd840",
   ".gitignore": "89fbde822305da20a6daa660038665960ca002ddb8884b9058b4e72d33ccee7d",
   "LICENSE": "d11f47c929898fc21422ba497bdee527de6acfa16983373f9bd0251527d1d07e",
-  "README.md": "7b32c6196e3f3278507dd650b2326b978deef3e7d7012ebf0bcd2ceb2fb59fb7",
+  "README.md": "33152aa609f2f52d699535e8d7ba5886a7184d712fd0f7ca49ee80d08c1ec66d",
   "bug_validator/__init__.py": "c1cb651bcbf5b54e9fa7f5f1340ba46a3ea160f3fc155b74b51cc4631acd9d03",
   "bug_validator/__main__.py": "49574bc201bd6760c13b41b2ed300ec35ea1b14ba9ea327e8be5f17718cf2f2e",
   "bug_validator/agent.py": "dbf013969ada74490802e4e41636810ee0c9dec854151d839fa5bd935d4b3256",
@@ -94,5 +94,16 @@
   "tests/test_general_security.py": "f4de4dfc90b32202a73a41f70933100f554c29d2b5ca77acafcc40e50ad20c0c",
   "tests/test_general_semantic.py": "44350869eb6e759c600539d21dc53978bea52fda498227471624cf8779dafcb0",
   "tests/test_schemas.py": "39952359954d1063e64b50fae0f582a6e6d91191c072b5267135b472f199f40e",
-  "tests/test_task_catalog.py": "f95e88e5dfafd538dd3fc2a3392becb90e1545dfcfc81620dcde4289b52df2f9"
+  "tests/test_task_catalog.py": "f95e88e5dfafd538dd3fc2a3392becb90e1545dfcfc81620dcde4289b52df2f9",
+  "tests/test_trace_viewer.py": "784f5ba929411e9d03eb51ce40bf9d7ea1fb7597e887aa5d382cdd8f7ce20aa6",
+  "trace-viewer/README.md": "0978406c6f971b8c7985c53b3ec6f15cf5ff4c8e4a4d925dd0c1b5d86eef0381",
+  "trace-viewer/VALIDATION.md": "63f0e0ea7c73d21c143e45797fc55e812a92180e48765271490c80f60a3290a6",
+  "trace-viewer/app.js": "193adfea423e3a997433e893aad3703bf33efe2fd3d37650523efafd527382ab",
+  "trace-viewer/build_demo.py": "8c487078d900334b1fb6abe561e7987734fe9cbbd5fc5c3ffe8c3fc7488c147a",
+  "trace-viewer/demo-data.js": "1cd97a5dab590cb5e7376aa37a7b0654b79da1c534ae3623efee7145f1b9906a",
+  "trace-viewer/demo.json": "49305807ba393561798ae39551d700d4f501a9d1dec3ff735f3802b36d0b784b",
+  "trace-viewer/index.html": "89eeedfd132e0c1feef1182ae3b8ab2d53e9ba3cd55226c7f0210279a7f0a011",
+  "trace-viewer/provenance.json": "305396a70e6561ec48ce9055e6593af175f538cd32637ed5ffdf6591c00d2e68",
+  "trace-viewer/styles.css": "5720b1665ae2367a8174430a0dcc6ba5d19253e6413b670b982c0eec5251cd3a",
+  "trace-viewer/test_app.cjs": "15c5f8cbc687b16f654591c306d7ecc25bd9e8d34f6109f8af5157ba3a88fe30"
 }

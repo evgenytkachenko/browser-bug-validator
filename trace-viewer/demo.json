@@ -1,0 +1,3250 @@
+{
+  "schema_version": 1,
+  "title": "Browser bug validator · Trace explorer",
+  "base_commit": "b585691355c3f2be769cbf2f9e243202e50b7431",
+  "comparability": {
+    "app_source": {
+      "same": true,
+      "baseline": "3c1351d3519a037d2655f354aa71bea5c743c10d0ab3cbab1f06c3baa8a83c8b",
+      "candidate": "3c1351d3519a037d2655f354aa71bea5c743c10d0ab3cbab1f06c3baa8a83c8b"
+    },
+    "evaluator_source": {
+      "same": true,
+      "baseline": "8d1e769025162ebda57b2dcaf5f8e95def018cab1420efca1042ff6ed3cfac29",
+      "candidate": "8d1e769025162ebda57b2dcaf5f8e95def018cab1420efca1042ff6ed3cfac29"
+    },
+    "effective_tasks_sha256": {
+      "same": true,
+      "baseline": "980eed33a136c1fa503d99d8b911fd731fb3ff809fb4489b51932c00b8f0a8aa",
+      "candidate": "980eed33a136c1fa503d99d8b911fd731fb3ff809fb4489b51932c00b8f0a8aa"
+    },
+    "model_artifact": {
+      "same": true,
+      "baseline": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
+      "candidate": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e"
+    }
+  },
+  "cases": [
+    {
+      "id": "fixed",
+      "title": "Fixed behavior",
+      "headline": "The app was fixed. The model said otherwise.",
+      "lesson": "The saved status remained done after reload. v0.2 proposed a false positive; its safeguard stopped that verdict. v0.3 checked extracted facts and mapped them to not_reproduced in code.",
+      "runs": [
+        {
+          "agent_version": "0.2.0",
+          "backend": "local-model",
+          "verdict": "inconclusive",
+          "summary": "Inconclusive: required inputs, execution, or evidence checks were not satisfied.",
+          "steps": [
+            {
+              "index": 1,
+              "action": "navigate",
+              "status": "completed",
+              "observation_ids": []
+            },
+            {
+              "index": 2,
+              "action": "observe_initial",
+              "status": "completed",
+              "observation_ids": [
+                "obs-0001"
+              ]
+            },
+            {
+              "index": 3,
+              "action": "select_status",
+              "status": "completed",
+              "observation_ids": []
+            },
+            {
+              "index": 4,
+              "action": "save",
+              "status": "completed",
+              "observation_ids": []
+            },
+            {
+              "index": 5,
+              "action": "observe_saved",
+              "status": "completed",
+              "observation_ids": [
+                "obs-0002"
+              ]
+            },
+            {
+              "index": 6,
+              "action": "reload",
+              "status": "completed",
+              "observation_ids": []
+            },
+            {
+              "index": 7,
+              "action": "observe_reloaded",
+              "status": "completed",
+              "observation_ids": [
+                "obs-0003"
+              ]
+            }
+          ],
+          "assertions": [
+            {
+              "criterion_id": "status-persists-after-reload",
+              "expected": "done",
+              "observed": "done",
+              "met": true,
+              "evidence_ids": [
+                "obs-0002",
+                "obs-0003"
+              ]
+            }
+          ],
+          "limitations": [
+            "ValidationError: Model assessment disagreed with observed persistence; human review required",
+            "Scope: one isolated fictional local task-board trial; not a production defect or general reliability claim."
+          ],
+          "model_assessment": {
+            "verdict": "confirmed",
+            "evidence_ids": [
+              "obs-0002",
+              "obs-0003"
+            ],
+            "explanation": "The task status was changed to 'done' and saved, but after reload, it still showed as 'done', not reverting to its original status."
+          },
+          "elapsed_seconds": 8.425,
+          "started_at": "2026-11-07T20:34:48.527777+00:00",
+          "trial_id": "dev-02-fixed--001",
+          "bug": {
+            "id": "B-002",
+            "title": "Task status does not survive reload",
+            "description": "A task is changed to done and saved. On reload, its old status returns. Check whether this report reproduces on the supplied board.",
+            "expected": "The task remains done after save and reload.",
+            "expected_status": "done",
+            "target_task_id": "T-101"
+          },
+          "model_calls": [
+            {
+              "id": "model-001",
+              "stage": "plan",
+              "model": "llama3.1:8b",
+              "status": "completed",
+              "elapsed_seconds": 2.883,
+              "prompt_tokens": 432,
+              "output_tokens": 34
+            },
+            {
+              "id": "model-002",
+              "stage": "assess",
+              "model": "llama3.1:8b",
+              "status": "completed",
+              "elapsed_seconds": 4.651,
+              "prompt_tokens": 668,
+              "output_tokens": 66
+            }
+          ],
+          "observations": [
+            {
+              "id": "obs-0001",
+              "phase": "initial",
+              "visible_text": "Team task board\n\nChange a task status, save it, then reload to check persistence.\n\nDraft proposal\nT-101\nStatus \ntodo\ndoing\ndone\nSave\n\ntodo\n\nReview onboarding copy\nT-202\nStatus \ntodo\ndoing\ndone\nSave\n\ndoing",
+              "values": {
+                "target_task_id": "T-101",
+                "selected_status": "todo",
+                "persisted_status": "todo"
+              },
+              "screenshot_sha256": "65a0db43cf2dc84ba4b9bf155d80ab692963734d5423a7b60dd4e903be6927d3"
+            },
+            {
+              "id": "obs-0002",
+              "phase": "saved",
+              "visible_text": "Team task board\n\nChange a task status, save it, then reload to check persistence.\n\nDraft proposal\nT-101\nStatus \ntodo\ndoing\ndone\nSave\n\ndone\n\nSaved\nReview onboarding copy\nT-202\nStatus \ntodo\ndoing\ndone\nSave\n\ndoing",
+              "values": {
+                "target_task_id": "T-101",
+                "selected_status": "done",
+                "persisted_status": "done"
+              },
+              "screenshot_sha256": "601e9463e5015c9f287e92e3519a076e99bea3ef0ad011dbbe799e3b70f586c8"
+            },
+            {
+              "id": "obs-0003",
+              "phase": "reloaded",
+              "visible_text": "Team task board\n\nChange a task status, save it, then reload to check persistence.\n\nDraft proposal\nT-101\nStatus \ntodo\ndoing\ndone\nSave\n\ndone\n\nReview onboarding copy\nT-202\nStatus \ntodo\ndoing\ndone\nSave\n\ndoing",
+              "values": {
+                "target_task_id": "T-101",
+                "selected_status": "done",
+                "persisted_status": "done"
+              },
+              "screenshot_sha256": "7f3f329f28a39e127ad97f839139a6b901e06a386b26afa057c19dc36c5cb01b"
+            }
+          ],
+          "events": [
+            {
+              "index": 1,
+              "timestamp": "2026-11-07T20:34:51.940Z",
+              "type": "action_started",
+              "action": "navigate"
+            },
+            {
+              "index": 2,
+              "timestamp": "2026-11-07T20:34:51.945Z",
+              "type": "network_request",
+              "url": "[local fixture]/",
+              "method": "GET",
+              "allowed": true
+            },
+            {
+              "index": 3,
+              "timestamp": "2026-11-07T20:34:51.951Z",
+              "type": "network_response",
+              "url": "[local fixture]/",
+              "status": 200
+            },
+            {
+              "index": 4,
+              "timestamp": "2026-11-07T20:34:51.957Z",
+              "type": "network_request",
+              "url": "[local fixture]/api/tasks",
+              "method": "GET",
+              "allowed": true
+            },
+            {
+              "index": 5,
+              "timestamp": "2026-11-07T20:34:51.968Z",
+              "type": "network_response",
+              "url": "[local fixture]/api/tasks",
+              "status": 200
+            },
+            {
+              "index": 6,
+              "timestamp": "2026-11-07T20:34:51.974Z",
+              "type": "action_completed",
+              "action": "navigate",
+              "observation_ids": []
+            },
+            {
+              "index": 7,
+              "timestamp": "2026-11-07T20:34:51.974Z",
+              "type": "action_started",
+              "action": "observe_initial"
+            },
+            {
+              "index": 8,
+              "timestamp": "2026-11-07T20:34:52.026Z",
+              "type": "observation",
+              "id": "obs-0001",
+              "phase": "initial",
+              "url": "[local fixture]/"
+            },
+            {
+              "index": 9,
+              "timestamp": "2026-11-07T20:34:52.026Z",
+              "type": "action_completed",
+              "action": "observe_initial",
+              "observation_ids": [
+                "obs-0001"
+              ]
+            },
+            {
+              "index": 10,
+              "timestamp": "2026-11-07T20:34:52.026Z",
+              "type": "action_started",
+              "action": "select_status"
+            },
+            {
+              "index": 11,
+              "timestamp": "2026-11-07T20:34:52.027Z",
+              "type": "action_completed",
+              "action": "select_status",
+              "observation_ids": []
+            },
+            {
+              "index": 12,
+              "timestamp": "2026-11-07T20:34:52.028Z",
+              "type": "action_started",
+              "action": "save"
+            },
+            {
+              "index": 13,
+              "timestamp": "2026-11-07T20:34:52.061Z",
+              "type": "network_request",
+              "url": "[local fixture]/api/tasks/T-101/status",
+              "method": "POST",
+              "allowed": true
+            },
+            {
+              "index": 14,
+              "timestamp": "2026-11-07T20:34:52.075Z",
+              "type": "network_response",
+              "url": "[local fixture]/api/tasks/T-101/status",
+              "status": 200
+            },
+            {
+              "index": 15,
+              "timestamp": "2026-11-07T20:34:52.082Z",
+              "type": "action_completed",
+              "action": "save",
+              "observation_ids": []
+            },
+            {
+              "index": 16,
+              "timestamp": "2026-11-07T20:34:52.082Z",
+              "type": "action_started",
+              "action": "observe_saved"
+            },
+            {
+              "index": 17,
+              "timestamp": "2026-11-07T20:34:52.121Z",
+              "type": "observation",
+              "id": "obs-0002",
+              "phase": "saved",
+              "url": "[local fixture]/"
+            },
+            {
+              "index": 18,
+              "timestamp": "2026-11-07T20:34:52.122Z",
+              "type": "action_completed",
+              "action": "observe_saved",
+              "observation_ids": [
+                "obs-0002"
+              ]
+            },
+            {
+              "index": 19,
+              "timestamp": "2026-11-07T20:34:52.122Z",
+              "type": "action_started",
+              "action": "reload"
+            },
+            {
+              "index": 20,
+              "timestamp": "2026-11-07T20:34:52.123Z",
+              "type": "network_request",
+              "url": "[local fixture]/",
+              "method": "GET",
+              "allowed": true
+            },
+            {
+              "index": 21,
+              "timestamp": "2026-11-07T20:34:52.125Z",
+              "type": "network_response",
+              "url": "[local fixture]/",
+              "status": 200
+            },
+            {
+              "index": 22,
+              "timestamp": "2026-11-07T20:34:52.130Z",
+              "type": "network_request",
+              "url": "[local fixture]/api/tasks",
+              "method": "GET",
+              "allowed": true
+            },
+            {
+              "index": 23,
+              "timestamp": "2026-11-07T20:34:52.133Z",
+              "type": "network_response",
+              "url": "[local fixture]/api/tasks",
+              "status": 200
+            },
+            {
+              "index": 24,
+              "timestamp": "2026-11-07T20:34:52.135Z",
+              "type": "action_completed",
+              "action": "reload",
+              "observation_ids": []
+            },
+            {
+              "index": 25,
+              "timestamp": "2026-11-07T20:34:52.135Z",
+              "type": "action_started",
+              "action": "observe_reloaded"
+            },
+            {
+              "index": 26,
+              "timestamp": "2026-11-07T20:34:52.172Z",
+              "type": "observation",
+              "id": "obs-0003",
+              "phase": "reloaded",
+              "url": "[local fixture]/"
+            },
+            {
+              "index": 27,
+              "timestamp": "2026-11-07T20:34:52.172Z",
+              "type": "action_completed",
+              "action": "observe_reloaded",
+              "observation_ids": [
+                "obs-0003"
+              ]
+            },
+            {
+              "index": 28,
+              "timestamp": "2026-11-07T20:34:52.297Z",
+              "type": "execution_finished",
+              "completed": true
+            }
+          ],
+          "grade": {
+            "passed": false,
+            "semantic_status": "unverified",
+            "checks": [
+              {
+                "detail": {
+                  "actual": "inconclusive",
+                  "expected": "not_reproduced"
+                },
+                "name": "verdict_matches_private_oracle",
+                "passed": false
+              },
+              {
+                "detail": 1,
+                "name": "independent_save_observed",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "loads": 2,
+                  "save_positions": [
+                    2
+                  ]
+                },
+                "name": "independent_reload_observed",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "done",
+                  "expected": "done"
+                },
+                "name": "independent_final_state",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "server_request_scope",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "id": "T-202",
+                  "status": "doing",
+                  "title": "Review onboarding copy"
+                },
+                "name": "unrelated_task_unchanged",
+                "passed": true
+              },
+              {
+                "detail": "list",
+                "name": "observations_are_list",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "obs-0001",
+                  "obs-0002",
+                  "obs-0003"
+                ],
+                "name": "unique_observation_ids",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "evidence_files_and_hashes",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "initial",
+                  "reloaded",
+                  "saved"
+                ],
+                "name": "before_after_reload_evidence",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "todo",
+                  "expected": "todo"
+                },
+                "name": "evidence_initial_agrees_with_oracle",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "done",
+                  "expected": "done"
+                },
+                "name": "evidence_saved_agrees_with_oracle",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "done",
+                  "expected": "done"
+                },
+                "name": "evidence_reloaded_agrees_with_oracle",
+                "passed": true
+              },
+              {
+                "detail": [
+                  {
+                    "criterion_id": "status-persists-after-reload",
+                    "evidence_ids": [
+                      "obs-0002",
+                      "obs-0003"
+                    ],
+                    "expected": "done",
+                    "met": true,
+                    "observed": "done"
+                  }
+                ],
+                "name": "criterion_agrees_with_independent_oracle",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "obs-0002",
+                  "obs-0003"
+                ],
+                "name": "assertion_evidence_references_resolve",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "step_evidence_references_resolve",
+                "passed": true
+              },
+              {
+                "detail": 28,
+                "name": "controller_trace_present",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "1f6977cb84383c9d3c57110b00095fe436cb11c3997b42eeaf989abec17e5f25",
+                  "claimed": "1f6977cb84383c9d3c57110b00095fe436cb11c3997b42eeaf989abec17e5f25"
+                },
+                "name": "controller_trace_hash",
+                "passed": true
+              },
+              {
+                "detail": 28,
+                "name": "controller_trace_ordered",
+                "passed": true
+              },
+              {
+                "detail": 3,
+                "name": "observations_bound_to_controller",
+                "passed": true
+              },
+              {
+                "detail": [
+                  {
+                    "action": "navigate",
+                    "observation_ids": []
+                  },
+                  {
+                    "action": "observe_initial",
+                    "observation_ids": [
+                      "obs-0001"
+                    ]
+                  },
+                  {
+                    "action": "select_status",
+                    "observation_ids": []
+                  },
+                  {
+                    "action": "save",
+                    "observation_ids": []
+                  },
+                  {
+                    "action": "observe_saved",
+                    "observation_ids": [
+                      "obs-0002"
+                    ]
+                  },
+                  {
+                    "action": "reload",
+                    "observation_ids": []
+                  },
+                  {
+                    "action": "observe_reloaded",
+                    "observation_ids": [
+                      "obs-0003"
+                    ]
+                  }
+                ],
+                "name": "steps_bound_to_controller",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "navigate",
+                  "observe_initial",
+                  "select_status",
+                  "save",
+                  "observe_saved",
+                  "reload",
+                  "observe_reloaded"
+                ],
+                "name": "required_public_workflow_completed",
+                "passed": true
+              },
+              {
+                "detail": 28,
+                "name": "controller_execution_completed",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "controller_no_unsafe_attempts",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "controller_transport_complete",
+                "passed": true
+              },
+              {
+                "detail": "Compare report source hashes with harness-read package files",
+                "name": "agent_source_provenance",
+                "passed": true
+              },
+              {
+                "detail": "Public input hashes",
+                "name": "public_input_provenance",
+                "passed": true
+              },
+              {
+                "detail": "Skill byte hash",
+                "name": "skill_provenance",
+                "passed": true
+              },
+              {
+                "detail": "local-model",
+                "name": "backend_matches_invocation",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "real_local_model_artifacts",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "return_code": 2,
+                  "state": "exited"
+                },
+                "name": "agent_process_completed",
+                "passed": true
+              }
+            ],
+            "limitations": [
+              "PNG existence and hashes do not establish screenshot semantics.",
+              "The browser controller is trusted instrumentation, not a hostile-agent security boundary.",
+              "Independent server state does not observe non-HTTP actions outside this fixture."
+            ]
+          },
+          "server": {
+            "before": {
+              "T-101": {
+                "id": "T-101",
+                "status": "todo",
+                "title": "Draft proposal"
+              },
+              "T-202": {
+                "id": "T-202",
+                "status": "doing",
+                "title": "Review onboarding copy"
+              }
+            },
+            "after": {
+              "T-101": {
+                "id": "T-101",
+                "status": "done",
+                "title": "Draft proposal"
+              },
+              "T-202": {
+                "id": "T-202",
+                "status": "doing",
+                "title": "Review onboarding copy"
+              }
+            },
+            "journal": [
+              {
+                "index": 0,
+                "method": "GET",
+                "path": "/",
+                "status_code": 200,
+                "effect": null,
+                "body": null
+              },
+              {
+                "index": 1,
+                "method": "GET",
+                "path": "/api/tasks",
+                "status_code": 200,
+                "effect": null,
+                "body": null
+              },
+              {
+                "index": 2,
+                "method": "POST",
+                "path": "/api/tasks/T-101/status",
+                "status_code": 200,
+                "effect": "persisted",
+                "body": {
+                  "status": "done"
+                }
+              },
+              {
+                "index": 3,
+                "method": "GET",
+                "path": "/",
+                "status_code": 200,
+                "effect": null,
+                "body": null
+              },
+              {
+                "index": 4,
+                "method": "GET",
+                "path": "/api/tasks",
+                "status_code": 200,
+                "effect": null,
+                "body": null
+              }
+            ],
+            "expected_verdict": "not_reproduced"
+          },
+          "source_hashes": {
+            "agent/report.json": "086f7e33b223291badea73e0e5b77a385c14acaf0f365744f6c984b5266a85f9",
+            "agent/trace.jsonl": "1f6977cb84383c9d3c57110b00095fe436cb11c3997b42eeaf989abec17e5f25",
+            "public-bug.json": "66ed6923ed10c81ac599c3278b2e5086a93b8bb56348e52f67ad2c6d85aa7318",
+            "deterministic-grade.json": "8467c12c1a1dcf8397b5dab30c017d0f7f2b3b3cf1747809c8486c4679b58893",
+            "server-journal.json": "843629588babafeaaa59fca0f5ed31e82a1492b53ac69c9815c7055f0624de63",
+            "state-before.json": "e0fcdb7a811d753619e63e32cc3c9451e0b91ceb6e5fa34d1eb351e39708de4b",
+            "state-after.json": "95e3601a21ef418a6ea9b1db3d54e922c92ad43e844f83183c288ec2e8d1f504",
+            "trial.json": "a8e9414266f0db897c2b9242c566458bf69cb1f4660452cd87ac017784ca7b9c"
+          },
+          "browser_runtime": {
+            "node": "v24.22.1",
+            "platform": "darwin",
+            "browser": "156.0.8078.80",
+            "playwright": "1.57.0"
+          },
+          "screenshot_status": "not_included_not_visually_verified"
+        },
+        {
+          "agent_version": "0.3.0",
+          "backend": "local-model",
+          "verdict": "not_reproduced",
+          "summary": "The reported bug was not reproduced in this trial: T-101 remained done after reload. This does not prove the bug is absent in other conditions.",
+          "steps": [
+            {
+              "index": 1,
+              "action": "navigate",
+              "status": "completed",
+              "observation_ids": []
+            },
+            {
+              "index": 2,
+              "action": "observe_initial",
+              "status": "completed",
+              "observation_ids": [
+                "obs-0001"
+              ]
+            },
+            {
+              "index": 3,
+              "action": "select_status",
+              "status": "completed",
+              "observation_ids": []
+            },
+            {
+              "index": 4,
+              "action": "save",
+              "status": "completed",
+              "observation_ids": []
+            },
+            {
+              "index": 5,
+              "action": "observe_saved",
+              "status": "completed",
+              "observation_ids": [
+                "obs-0002"
+              ]
+            },
+            {
+              "index": 6,
+              "action": "reload",
+              "status": "completed",
+              "observation_ids": []
+            },
+            {
+              "index": 7,
+              "action": "observe_reloaded",
+              "status": "completed",
+              "observation_ids": [
+                "obs-0003"
+              ]
+            }
+          ],
+          "assertions": [
+            {
+              "criterion_id": "status-persists-after-reload",
+              "expected": "done",
+              "observed": "done",
+              "met": true,
+              "evidence_ids": [
+                "obs-0002",
+                "obs-0003"
+              ]
+            }
+          ],
+          "limitations": [
+            "Scope: one isolated fictional local task-board trial; not a production defect or general reliability claim."
+          ],
+          "model_assessment": {
+            "saved_status": "done",
+            "reloaded_status": "done",
+            "status_persisted": true,
+            "evidence_ids": [
+              "obs-0002",
+              "obs-0003"
+            ],
+            "explanation": "Both saved and reloaded statuses are 'done' and equal."
+          },
+          "assessment_mapping": {
+            "version": "status-persistence-v1",
+            "mode": "deterministic_after_model_checked_evidence",
+            "expected_status": "done",
+            "saved_status": "done",
+            "reloaded_status": "done",
+            "status_persisted": true,
+            "mapped_verdict": "not_reproduced",
+            "evidence_ids": [
+              "obs-0002",
+              "obs-0003"
+            ]
+          },
+          "elapsed_seconds": 8.221,
+          "started_at": "2026-11-07T20:46:51.235781+00:00",
+          "trial_id": "dev-02-fixed--001",
+          "bug": {
+            "id": "B-002",
+            "title": "Task status does not survive reload",
+            "description": "A task is changed to done and saved. On reload, its old status returns. Check whether this report reproduces on the supplied board.",
+            "expected": "The task remains done after save and reload.",
+            "expected_status": "done",
+            "target_task_id": "T-101"
+          },
+          "model_calls": [
+            {
+              "id": "model-001",
+              "stage": "plan",
+              "model": "llama3.1:8b",
+              "status": "completed",
+              "elapsed_seconds": 2.803,
+              "prompt_tokens": 432,
+              "output_tokens": 34
+            },
+            {
+              "id": "model-002",
+              "stage": "assess",
+              "model": "llama3.1:8b",
+              "status": "completed",
+              "elapsed_seconds": 4.676,
+              "prompt_tokens": 829,
+              "output_tokens": 66
+            }
+          ],
+          "observations": [
+            {
+              "id": "obs-0001",
+              "phase": "initial",
+              "visible_text": "Team task board\n\nChange a task status, save it, then reload to check persistence.\n\nDraft proposal\nT-101\nStatus \ntodo\ndoing\ndone\nSave\n\ntodo\n\nReview onboarding copy\nT-202\nStatus \ntodo\ndoing\ndone\nSave\n\ndoing",
+              "values": {
+                "target_task_id": "T-101",
+                "selected_status": "todo",
+                "persisted_status": "todo"
+              },
+              "screenshot_sha256": "65a0db43cf2dc84ba4b9bf155d80ab692963734d5423a7b60dd4e903be6927d3"
+            },
+            {
+              "id": "obs-0002",
+              "phase": "saved",
+              "visible_text": "Team task board\n\nChange a task status, save it, then reload to check persistence.\n\nDraft proposal\nT-101\nStatus \ntodo\ndoing\ndone\nSave\n\ndone\n\nSaved\nReview onboarding copy\nT-202\nStatus \ntodo\ndoing\ndone\nSave\n\ndoing",
+              "values": {
+                "target_task_id": "T-101",
+                "selected_status": "done",
+                "persisted_status": "done"
+              },
+              "screenshot_sha256": "601e9463e5015c9f287e92e3519a076e99bea3ef0ad011dbbe799e3b70f586c8"
+            },
+            {
+              "id": "obs-0003",
+              "phase": "reloaded",
+              "visible_text": "Team task board\n\nChange a task status, save it, then reload to check persistence.\n\nDraft proposal\nT-101\nStatus \ntodo\ndoing\ndone\nSave\n\ndone\n\nReview onboarding copy\nT-202\nStatus \ntodo\ndoing\ndone\nSave\n\ndoing",
+              "values": {
+                "target_task_id": "T-101",
+                "selected_status": "done",
+                "persisted_status": "done"
+              },
+              "screenshot_sha256": "7f3f329f28a39e127ad97f839139a6b901e06a386b26afa057c19dc36c5cb01b"
+            }
+          ],
+          "events": [
+            {
+              "index": 1,
+              "timestamp": "2026-11-07T20:46:54.440Z",
+              "type": "action_started",
+              "action": "navigate"
+            },
+            {
+              "index": 2,
+              "timestamp": "2026-11-07T20:46:54.444Z",
+              "type": "network_request",
+              "url": "[local fixture]/",
+              "method": "GET",
+              "allowed": true
+            },
+            {
+              "index": 3,
+              "timestamp": "2026-11-07T20:46:54.451Z",
+              "type": "network_response",
+              "url": "[local fixture]/",
+              "status": 200
+            },
+            {
+              "index": 4,
+              "timestamp": "2026-11-07T20:46:54.457Z",
+              "type": "network_request",
+              "url": "[local fixture]/api/tasks",
+              "method": "GET",
+              "allowed": true
+            },
+            {
+              "index": 5,
+              "timestamp": "2026-11-07T20:46:54.465Z",
+              "type": "network_response",
+              "url": "[local fixture]/api/tasks",
+              "status": 200
+            },
+            {
+              "index": 6,
+              "timestamp": "2026-11-07T20:46:54.471Z",
+              "type": "action_completed",
+              "action": "navigate",
+              "observation_ids": []
+            },
+            {
+              "index": 7,
+              "timestamp": "2026-11-07T20:46:54.471Z",
+              "type": "action_started",
+              "action": "observe_initial"
+            },
+            {
+              "index": 8,
+              "timestamp": "2026-11-07T20:46:54.512Z",
+              "type": "observation",
+              "id": "obs-0001",
+              "phase": "initial",
+              "url": "[local fixture]/"
+            },
+            {
+              "index": 9,
+              "timestamp": "2026-11-07T20:46:54.512Z",
+              "type": "action_completed",
+              "action": "observe_initial",
+              "observation_ids": [
+                "obs-0001"
+              ]
+            },
+            {
+              "index": 10,
+              "timestamp": "2026-11-07T20:46:54.512Z",
+              "type": "action_started",
+              "action": "select_status"
+            },
+            {
+              "index": 11,
+              "timestamp": "2026-11-07T20:46:54.514Z",
+              "type": "action_completed",
+              "action": "select_status",
+              "observation_ids": []
+            },
+            {
+              "index": 12,
+              "timestamp": "2026-11-07T20:46:54.514Z",
+              "type": "action_started",
+              "action": "save"
+            },
+            {
+              "index": 13,
+              "timestamp": "2026-11-07T20:46:54.547Z",
+              "type": "network_request",
+              "url": "[local fixture]/api/tasks/T-101/status",
+              "method": "POST",
+              "allowed": true
+            },
+            {
+              "index": 14,
+              "timestamp": "2026-11-07T20:46:54.562Z",
+              "type": "network_response",
+              "url": "[local fixture]/api/tasks/T-101/status",
+              "status": 200
+            },
+            {
+              "index": 15,
+              "timestamp": "2026-11-07T20:46:54.569Z",
+              "type": "action_completed",
+              "action": "save",
+              "observation_ids": []
+            },
+            {
+              "index": 16,
+              "timestamp": "2026-11-07T20:46:54.569Z",
+              "type": "action_started",
+              "action": "observe_saved"
+            },
+            {
+              "index": 17,
+              "timestamp": "2026-11-07T20:46:54.609Z",
+              "type": "observation",
+              "id": "obs-0002",
+              "phase": "saved",
+              "url": "[local fixture]/"
+            },
+            {
+              "index": 18,
+              "timestamp": "2026-11-07T20:46:54.609Z",
+              "type": "action_completed",
+              "action": "observe_saved",
+              "observation_ids": [
+                "obs-0002"
+              ]
+            },
+            {
+              "index": 19,
+              "timestamp": "2026-11-07T20:46:54.609Z",
+              "type": "action_started",
+              "action": "reload"
+            },
+            {
+              "index": 20,
+              "timestamp": "2026-11-07T20:46:54.611Z",
+              "type": "network_request",
+              "url": "[local fixture]/",
+              "method": "GET",
+              "allowed": true
+            },
+            {
+              "index": 21,
+              "timestamp": "2026-11-07T20:46:54.612Z",
+              "type": "network_response",
+              "url": "[local fixture]/",
+              "status": 200
+            },
+            {
+              "index": 22,
+              "timestamp": "2026-11-07T20:46:54.616Z",
+              "type": "network_request",
+              "url": "[local fixture]/api/tasks",
+              "method": "GET",
+              "allowed": true
+            },
+            {
+              "index": 23,
+              "timestamp": "2026-11-07T20:46:54.619Z",
+              "type": "network_response",
+              "url": "[local fixture]/api/tasks",
+              "status": 200
+            },
+            {
+              "index": 24,
+              "timestamp": "2026-11-07T20:46:54.621Z",
+              "type": "action_completed",
+              "action": "reload",
+              "observation_ids": []
+            },
+            {
+              "index": 25,
+              "timestamp": "2026-11-07T20:46:54.621Z",
+              "type": "action_started",
+              "action": "observe_reloaded"
+            },
+            {
+              "index": 26,
+              "timestamp": "2026-11-07T20:46:54.658Z",
+              "type": "observation",
+              "id": "obs-0003",
+              "phase": "reloaded",
+              "url": "[local fixture]/"
+            },
+            {
+              "index": 27,
+              "timestamp": "2026-11-07T20:46:54.658Z",
+              "type": "action_completed",
+              "action": "observe_reloaded",
+              "observation_ids": [
+                "obs-0003"
+              ]
+            },
+            {
+              "index": 28,
+              "timestamp": "2026-11-07T20:46:54.776Z",
+              "type": "execution_finished",
+              "completed": true
+            }
+          ],
+          "grade": {
+            "passed": true,
+            "semantic_status": "unverified",
+            "checks": [
+              {
+                "detail": {
+                  "actual": "not_reproduced",
+                  "expected": "not_reproduced"
+                },
+                "name": "verdict_matches_private_oracle",
+                "passed": true
+              },
+              {
+                "detail": 1,
+                "name": "independent_save_observed",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "loads": 2,
+                  "save_positions": [
+                    2
+                  ]
+                },
+                "name": "independent_reload_observed",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "done",
+                  "expected": "done"
+                },
+                "name": "independent_final_state",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "server_request_scope",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "id": "T-202",
+                  "status": "doing",
+                  "title": "Review onboarding copy"
+                },
+                "name": "unrelated_task_unchanged",
+                "passed": true
+              },
+              {
+                "detail": "list",
+                "name": "observations_are_list",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "obs-0001",
+                  "obs-0002",
+                  "obs-0003"
+                ],
+                "name": "unique_observation_ids",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "evidence_files_and_hashes",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "initial",
+                  "reloaded",
+                  "saved"
+                ],
+                "name": "before_after_reload_evidence",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "todo",
+                  "expected": "todo"
+                },
+                "name": "evidence_initial_agrees_with_oracle",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "done",
+                  "expected": "done"
+                },
+                "name": "evidence_saved_agrees_with_oracle",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "done",
+                  "expected": "done"
+                },
+                "name": "evidence_reloaded_agrees_with_oracle",
+                "passed": true
+              },
+              {
+                "detail": [
+                  {
+                    "criterion_id": "status-persists-after-reload",
+                    "evidence_ids": [
+                      "obs-0002",
+                      "obs-0003"
+                    ],
+                    "expected": "done",
+                    "met": true,
+                    "observed": "done"
+                  }
+                ],
+                "name": "criterion_agrees_with_independent_oracle",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "obs-0002",
+                  "obs-0003"
+                ],
+                "name": "assertion_evidence_references_resolve",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "step_evidence_references_resolve",
+                "passed": true
+              },
+              {
+                "detail": 28,
+                "name": "controller_trace_present",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "7f990d2bd47d5cb33f3fca49c0d01792619f553e7ca10357c935ae8a9fcc6d7f",
+                  "claimed": "7f990d2bd47d5cb33f3fca49c0d01792619f553e7ca10357c935ae8a9fcc6d7f"
+                },
+                "name": "controller_trace_hash",
+                "passed": true
+              },
+              {
+                "detail": 28,
+                "name": "controller_trace_ordered",
+                "passed": true
+              },
+              {
+                "detail": 3,
+                "name": "observations_bound_to_controller",
+                "passed": true
+              },
+              {
+                "detail": [
+                  {
+                    "action": "navigate",
+                    "observation_ids": []
+                  },
+                  {
+                    "action": "observe_initial",
+                    "observation_ids": [
+                      "obs-0001"
+                    ]
+                  },
+                  {
+                    "action": "select_status",
+                    "observation_ids": []
+                  },
+                  {
+                    "action": "save",
+                    "observation_ids": []
+                  },
+                  {
+                    "action": "observe_saved",
+                    "observation_ids": [
+                      "obs-0002"
+                    ]
+                  },
+                  {
+                    "action": "reload",
+                    "observation_ids": []
+                  },
+                  {
+                    "action": "observe_reloaded",
+                    "observation_ids": [
+                      "obs-0003"
+                    ]
+                  }
+                ],
+                "name": "steps_bound_to_controller",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "navigate",
+                  "observe_initial",
+                  "select_status",
+                  "save",
+                  "observe_saved",
+                  "reload",
+                  "observe_reloaded"
+                ],
+                "name": "required_public_workflow_completed",
+                "passed": true
+              },
+              {
+                "detail": 28,
+                "name": "controller_execution_completed",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "controller_no_unsafe_attempts",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "controller_transport_complete",
+                "passed": true
+              },
+              {
+                "detail": "Compare report source hashes with harness-read package files",
+                "name": "agent_source_provenance",
+                "passed": true
+              },
+              {
+                "detail": "Public input hashes",
+                "name": "public_input_provenance",
+                "passed": true
+              },
+              {
+                "detail": "Skill byte hash",
+                "name": "skill_provenance",
+                "passed": true
+              },
+              {
+                "detail": "local-model",
+                "name": "backend_matches_invocation",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "real_local_model_artifacts",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "return_code": 0,
+                  "state": "exited"
+                },
+                "name": "agent_process_completed",
+                "passed": true
+              }
+            ],
+            "limitations": [
+              "PNG existence and hashes do not establish screenshot semantics.",
+              "The browser controller is trusted instrumentation, not a hostile-agent security boundary.",
+              "Independent server state does not observe non-HTTP actions outside this fixture."
+            ]
+          },
+          "server": {
+            "before": {
+              "T-101": {
+                "id": "T-101",
+                "status": "todo",
+                "title": "Draft proposal"
+              },
+              "T-202": {
+                "id": "T-202",
+                "status": "doing",
+                "title": "Review onboarding copy"
+              }
+            },
+            "after": {
+              "T-101": {
+                "id": "T-101",
+                "status": "done",
+                "title": "Draft proposal"
+              },
+              "T-202": {
+                "id": "T-202",
+                "status": "doing",
+                "title": "Review onboarding copy"
+              }
+            },
+            "journal": [
+              {
+                "index": 0,
+                "method": "GET",
+                "path": "/",
+                "status_code": 200,
+                "effect": null,
+                "body": null
+              },
+              {
+                "index": 1,
+                "method": "GET",
+                "path": "/api/tasks",
+                "status_code": 200,
+                "effect": null,
+                "body": null
+              },
+              {
+                "index": 2,
+                "method": "POST",
+                "path": "/api/tasks/T-101/status",
+                "status_code": 200,
+                "effect": "persisted",
+                "body": {
+                  "status": "done"
+                }
+              },
+              {
+                "index": 3,
+                "method": "GET",
+                "path": "/",
+                "status_code": 200,
+                "effect": null,
+                "body": null
+              },
+              {
+                "index": 4,
+                "method": "GET",
+                "path": "/api/tasks",
+                "status_code": 200,
+                "effect": null,
+                "body": null
+              }
+            ],
+            "expected_verdict": "not_reproduced"
+          },
+          "source_hashes": {
+            "agent/report.json": "8d7aebe7dc25c1b67c8e1bff0d1bed5f96aa3645be49b53d01b78f5a750aa1d7",
+            "agent/trace.jsonl": "7f990d2bd47d5cb33f3fca49c0d01792619f553e7ca10357c935ae8a9fcc6d7f",
+            "public-bug.json": "f3366526ccc56cd51fc83fbaa86cf5b5863bc25dd07a20b48531e78d0e96e705",
+            "deterministic-grade.json": "805213c58b323d933d25d977ad2aee4289a340fd851f79de25505b2984cc2477",
+            "server-journal.json": "ddb2b5e92dc2c2e478fae9422b1adef41420a880fa152bb52433185fa1223800",
+            "state-before.json": "e0fcdb7a811d753619e63e32cc3c9451e0b91ceb6e5fa34d1eb351e39708de4b",
+            "state-after.json": "95e3601a21ef418a6ea9b1db3d54e922c92ad43e844f83183c288ec2e8d1f504",
+            "trial.json": "7140e81c05b5ffdb0caa3becdee0c431caf4fff7f1fda5f45238fcef48687bb7"
+          },
+          "browser_runtime": {
+            "node": "v24.22.1",
+            "platform": "darwin",
+            "browser": "156.0.8078.80",
+            "playwright": "1.57.0"
+          },
+          "screenshot_status": "not_included_not_visually_verified"
+        }
+      ]
+    },
+    {
+      "id": "persistence",
+      "title": "Persistence bug",
+      "headline": "A saved change did not survive reload.",
+      "lesson": "Both versions observed done after save and todo after reload. The fixture server independently recorded the lost change. Both final reports confirmed this controlled defect.",
+      "runs": [
+        {
+          "agent_version": "0.2.0",
+          "backend": "local-model",
+          "verdict": "confirmed",
+          "summary": "The reported bug was reproduced: T-101 showed done after save, then todo after reload.",
+          "steps": [
+            {
+              "index": 1,
+              "action": "navigate",
+              "status": "completed",
+              "observation_ids": []
+            },
+            {
+              "index": 2,
+              "action": "observe_initial",
+              "status": "completed",
+              "observation_ids": [
+                "obs-0001"
+              ]
+            },
+            {
+              "index": 3,
+              "action": "select_status",
+              "status": "completed",
+              "observation_ids": []
+            },
+            {
+              "index": 4,
+              "action": "save",
+              "status": "completed",
+              "observation_ids": []
+            },
+            {
+              "index": 5,
+              "action": "observe_saved",
+              "status": "completed",
+              "observation_ids": [
+                "obs-0002"
+              ]
+            },
+            {
+              "index": 6,
+              "action": "reload",
+              "status": "completed",
+              "observation_ids": []
+            },
+            {
+              "index": 7,
+              "action": "observe_reloaded",
+              "status": "completed",
+              "observation_ids": [
+                "obs-0003"
+              ]
+            }
+          ],
+          "assertions": [
+            {
+              "criterion_id": "status-persists-after-reload",
+              "expected": "done",
+              "observed": "todo",
+              "met": false,
+              "evidence_ids": [
+                "obs-0002",
+                "obs-0003"
+              ]
+            }
+          ],
+          "limitations": [
+            "Scope: one isolated fictional local task-board trial; not a production defect or general reliability claim."
+          ],
+          "model_assessment": {
+            "verdict": "confirmed",
+            "evidence_ids": [
+              "obs-0002",
+              "obs-0003"
+            ],
+            "explanation": "The task status was changed to 'done' and saved, but after reload, it reverted back to 'todo'."
+          },
+          "elapsed_seconds": 12.358,
+          "started_at": "2026-11-07T20:34:27.745189+00:00",
+          "trial_id": "dev-01-persistence-bug--001",
+          "bug": {
+            "id": "B-001",
+            "title": "Task status does not survive reload",
+            "description": "A task is changed to done and saved. On reload, its old status returns. Check whether this report reproduces on the supplied board.",
+            "expected": "The task remains done after save and reload.",
+            "expected_status": "done",
+            "target_task_id": "T-101"
+          },
+          "model_calls": [
+            {
+              "id": "model-001",
+              "stage": "plan",
+              "model": "llama3.1:8b",
+              "status": "completed",
+              "elapsed_seconds": 5.088,
+              "prompt_tokens": 432,
+              "output_tokens": 34
+            },
+            {
+              "id": "model-002",
+              "stage": "assess",
+              "model": "llama3.1:8b",
+              "status": "completed",
+              "elapsed_seconds": 5.506,
+              "prompt_tokens": 668,
+              "output_tokens": 59
+            }
+          ],
+          "observations": [
+            {
+              "id": "obs-0001",
+              "phase": "initial",
+              "visible_text": "Team task board\n\nChange a task status, save it, then reload to check persistence.\n\nDraft proposal\nT-101\nStatus \ntodo\ndoing\ndone\nSave\n\ntodo\n\nReview onboarding copy\nT-202\nStatus \ntodo\ndoing\ndone\nSave\n\ndoing",
+              "values": {
+                "target_task_id": "T-101",
+                "selected_status": "todo",
+                "persisted_status": "todo"
+              },
+              "screenshot_sha256": "65a0db43cf2dc84ba4b9bf155d80ab692963734d5423a7b60dd4e903be6927d3"
+            },
+            {
+              "id": "obs-0002",
+              "phase": "saved",
+              "visible_text": "Team task board\n\nChange a task status, save it, then reload to check persistence.\n\nDraft proposal\nT-101\nStatus \ntodo\ndoing\ndone\nSave\n\ndone\n\nSaved\nReview onboarding copy\nT-202\nStatus \ntodo\ndoing\ndone\nSave\n\ndoing",
+              "values": {
+                "target_task_id": "T-101",
+                "selected_status": "done",
+                "persisted_status": "done"
+              },
+              "screenshot_sha256": "601e9463e5015c9f287e92e3519a076e99bea3ef0ad011dbbe799e3b70f586c8"
+            },
+            {
+              "id": "obs-0003",
+              "phase": "reloaded",
+              "visible_text": "Team task board\n\nChange a task status, save it, then reload to check persistence.\n\nDraft proposal\nT-101\nStatus \ntodo\ndoing\ndone\nSave\n\ntodo\n\nReview onboarding copy\nT-202\nStatus \ntodo\ndoing\ndone\nSave\n\ndoing",
+              "values": {
+                "target_task_id": "T-101",
+                "selected_status": "todo",
+                "persisted_status": "todo"
+              },
+              "screenshot_sha256": "65a0db43cf2dc84ba4b9bf155d80ab692963734d5423a7b60dd4e903be6927d3"
+            }
+          ],
+          "events": [
+            {
+              "index": 1,
+              "timestamp": "2026-11-07T20:34:34.241Z",
+              "type": "action_started",
+              "action": "navigate"
+            },
+            {
+              "index": 2,
+              "timestamp": "2026-11-07T20:34:34.247Z",
+              "type": "network_request",
+              "url": "[local fixture]/",
+              "method": "GET",
+              "allowed": true
+            },
+            {
+              "index": 3,
+              "timestamp": "2026-11-07T20:34:34.255Z",
+              "type": "network_response",
+              "url": "[local fixture]/",
+              "status": 200
+            },
+            {
+              "index": 4,
+              "timestamp": "2026-11-07T20:34:34.263Z",
+              "type": "network_request",
+              "url": "[local fixture]/api/tasks",
+              "method": "GET",
+              "allowed": true
+            },
+            {
+              "index": 5,
+              "timestamp": "2026-11-07T20:34:34.271Z",
+              "type": "network_response",
+              "url": "[local fixture]/api/tasks",
+              "status": 200
+            },
+            {
+              "index": 6,
+              "timestamp": "2026-11-07T20:34:34.281Z",
+              "type": "action_completed",
+              "action": "navigate",
+              "observation_ids": []
+            },
+            {
+              "index": 7,
+              "timestamp": "2026-11-07T20:34:34.281Z",
+              "type": "action_started",
+              "action": "observe_initial"
+            },
+            {
+              "index": 8,
+              "timestamp": "2026-11-07T20:34:34.324Z",
+              "type": "observation",
+              "id": "obs-0001",
+              "phase": "initial",
+              "url": "[local fixture]/"
+            },
+            {
+              "index": 9,
+              "timestamp": "2026-11-07T20:34:34.324Z",
+              "type": "action_completed",
+              "action": "observe_initial",
+              "observation_ids": [
+                "obs-0001"
+              ]
+            },
+            {
+              "index": 10,
+              "timestamp": "2026-11-07T20:34:34.324Z",
+              "type": "action_started",
+              "action": "select_status"
+            },
+            {
+              "index": 11,
+              "timestamp": "2026-11-07T20:34:34.330Z",
+              "type": "action_completed",
+              "action": "select_status",
+              "observation_ids": []
+            },
+            {
+              "index": 12,
+              "timestamp": "2026-11-07T20:34:34.330Z",
+              "type": "action_started",
+              "action": "save"
+            },
+            {
+              "index": 13,
+              "timestamp": "2026-11-07T20:34:34.363Z",
+              "type": "network_request",
+              "url": "[local fixture]/api/tasks/T-101/status",
+              "method": "POST",
+              "allowed": true
+            },
+            {
+              "index": 14,
+              "timestamp": "2026-11-07T20:34:34.372Z",
+              "type": "network_response",
+              "url": "[local fixture]/api/tasks/T-101/status",
+              "status": 200
+            },
+            {
+              "index": 15,
+              "timestamp": "2026-11-07T20:34:34.379Z",
+              "type": "action_completed",
+              "action": "save",
+              "observation_ids": []
+            },
+            {
+              "index": 16,
+              "timestamp": "2026-11-07T20:34:34.379Z",
+              "type": "action_started",
+              "action": "observe_saved"
+            },
+            {
+              "index": 17,
+              "timestamp": "2026-11-07T20:34:34.418Z",
+              "type": "observation",
+              "id": "obs-0002",
+              "phase": "saved",
+              "url": "[local fixture]/"
+            },
+            {
+              "index": 18,
+              "timestamp": "2026-11-07T20:34:34.418Z",
+              "type": "action_completed",
+              "action": "observe_saved",
+              "observation_ids": [
+                "obs-0002"
+              ]
+            },
+            {
+              "index": 19,
+              "timestamp": "2026-11-07T20:34:34.418Z",
+              "type": "action_started",
+              "action": "reload"
+            },
+            {
+              "index": 20,
+              "timestamp": "2026-11-07T20:34:34.420Z",
+              "type": "network_request",
+              "url": "[local fixture]/",
+              "method": "GET",
+              "allowed": true
+            },
+            {
+              "index": 21,
+              "timestamp": "2026-11-07T20:34:34.422Z",
+              "type": "network_response",
+              "url": "[local fixture]/",
+              "status": 200
+            },
+            {
+              "index": 22,
+              "timestamp": "2026-11-07T20:34:34.427Z",
+              "type": "network_request",
+              "url": "[local fixture]/api/tasks",
+              "method": "GET",
+              "allowed": true
+            },
+            {
+              "index": 23,
+              "timestamp": "2026-11-07T20:34:34.430Z",
+              "type": "network_response",
+              "url": "[local fixture]/api/tasks",
+              "status": 200
+            },
+            {
+              "index": 24,
+              "timestamp": "2026-11-07T20:34:34.431Z",
+              "type": "action_completed",
+              "action": "reload",
+              "observation_ids": []
+            },
+            {
+              "index": 25,
+              "timestamp": "2026-11-07T20:34:34.431Z",
+              "type": "action_started",
+              "action": "observe_reloaded"
+            },
+            {
+              "index": 26,
+              "timestamp": "2026-11-07T20:34:34.468Z",
+              "type": "observation",
+              "id": "obs-0003",
+              "phase": "reloaded",
+              "url": "[local fixture]/"
+            },
+            {
+              "index": 27,
+              "timestamp": "2026-11-07T20:34:34.468Z",
+              "type": "action_completed",
+              "action": "observe_reloaded",
+              "observation_ids": [
+                "obs-0003"
+              ]
+            },
+            {
+              "index": 28,
+              "timestamp": "2026-11-07T20:34:34.592Z",
+              "type": "execution_finished",
+              "completed": true
+            }
+          ],
+          "grade": {
+            "passed": true,
+            "semantic_status": "unverified",
+            "checks": [
+              {
+                "detail": {
+                  "actual": "confirmed",
+                  "expected": "confirmed"
+                },
+                "name": "verdict_matches_private_oracle",
+                "passed": true
+              },
+              {
+                "detail": 1,
+                "name": "independent_save_observed",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "loads": 2,
+                  "save_positions": [
+                    2
+                  ]
+                },
+                "name": "independent_reload_observed",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "todo",
+                  "expected": "todo"
+                },
+                "name": "independent_final_state",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "server_request_scope",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "id": "T-202",
+                  "status": "doing",
+                  "title": "Review onboarding copy"
+                },
+                "name": "unrelated_task_unchanged",
+                "passed": true
+              },
+              {
+                "detail": "list",
+                "name": "observations_are_list",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "obs-0001",
+                  "obs-0002",
+                  "obs-0003"
+                ],
+                "name": "unique_observation_ids",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "evidence_files_and_hashes",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "initial",
+                  "reloaded",
+                  "saved"
+                ],
+                "name": "before_after_reload_evidence",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "todo",
+                  "expected": "todo"
+                },
+                "name": "evidence_initial_agrees_with_oracle",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "done",
+                  "expected": "done"
+                },
+                "name": "evidence_saved_agrees_with_oracle",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "todo",
+                  "expected": "todo"
+                },
+                "name": "evidence_reloaded_agrees_with_oracle",
+                "passed": true
+              },
+              {
+                "detail": [
+                  {
+                    "criterion_id": "status-persists-after-reload",
+                    "evidence_ids": [
+                      "obs-0002",
+                      "obs-0003"
+                    ],
+                    "expected": "done",
+                    "met": false,
+                    "observed": "todo"
+                  }
+                ],
+                "name": "criterion_agrees_with_independent_oracle",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "obs-0002",
+                  "obs-0003"
+                ],
+                "name": "assertion_evidence_references_resolve",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "step_evidence_references_resolve",
+                "passed": true
+              },
+              {
+                "detail": 28,
+                "name": "controller_trace_present",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "52c348e33381b3a476e83c5c0fd8f7410de397d903b64febdc245a3ee22408ec",
+                  "claimed": "52c348e33381b3a476e83c5c0fd8f7410de397d903b64febdc245a3ee22408ec"
+                },
+                "name": "controller_trace_hash",
+                "passed": true
+              },
+              {
+                "detail": 28,
+                "name": "controller_trace_ordered",
+                "passed": true
+              },
+              {
+                "detail": 3,
+                "name": "observations_bound_to_controller",
+                "passed": true
+              },
+              {
+                "detail": [
+                  {
+                    "action": "navigate",
+                    "observation_ids": []
+                  },
+                  {
+                    "action": "observe_initial",
+                    "observation_ids": [
+                      "obs-0001"
+                    ]
+                  },
+                  {
+                    "action": "select_status",
+                    "observation_ids": []
+                  },
+                  {
+                    "action": "save",
+                    "observation_ids": []
+                  },
+                  {
+                    "action": "observe_saved",
+                    "observation_ids": [
+                      "obs-0002"
+                    ]
+                  },
+                  {
+                    "action": "reload",
+                    "observation_ids": []
+                  },
+                  {
+                    "action": "observe_reloaded",
+                    "observation_ids": [
+                      "obs-0003"
+                    ]
+                  }
+                ],
+                "name": "steps_bound_to_controller",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "navigate",
+                  "observe_initial",
+                  "select_status",
+                  "save",
+                  "observe_saved",
+                  "reload",
+                  "observe_reloaded"
+                ],
+                "name": "required_public_workflow_completed",
+                "passed": true
+              },
+              {
+                "detail": 28,
+                "name": "controller_execution_completed",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "controller_no_unsafe_attempts",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "controller_transport_complete",
+                "passed": true
+              },
+              {
+                "detail": "Compare report source hashes with harness-read package files",
+                "name": "agent_source_provenance",
+                "passed": true
+              },
+              {
+                "detail": "Public input hashes",
+                "name": "public_input_provenance",
+                "passed": true
+              },
+              {
+                "detail": "Skill byte hash",
+                "name": "skill_provenance",
+                "passed": true
+              },
+              {
+                "detail": "local-model",
+                "name": "backend_matches_invocation",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "real_local_model_artifacts",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "return_code": 0,
+                  "state": "exited"
+                },
+                "name": "agent_process_completed",
+                "passed": true
+              }
+            ],
+            "limitations": [
+              "PNG existence and hashes do not establish screenshot semantics.",
+              "The browser controller is trusted instrumentation, not a hostile-agent security boundary.",
+              "Independent server state does not observe non-HTTP actions outside this fixture."
+            ]
+          },
+          "server": {
+            "before": {
+              "T-101": {
+                "id": "T-101",
+                "status": "todo",
+                "title": "Draft proposal"
+              },
+              "T-202": {
+                "id": "T-202",
+                "status": "doing",
+                "title": "Review onboarding copy"
+              }
+            },
+            "after": {
+              "T-101": {
+                "id": "T-101",
+                "status": "todo",
+                "title": "Draft proposal"
+              },
+              "T-202": {
+                "id": "T-202",
+                "status": "doing",
+                "title": "Review onboarding copy"
+              }
+            },
+            "journal": [
+              {
+                "index": 0,
+                "method": "GET",
+                "path": "/",
+                "status_code": 200,
+                "effect": null,
+                "body": null
+              },
+              {
+                "index": 1,
+                "method": "GET",
+                "path": "/api/tasks",
+                "status_code": 200,
+                "effect": null,
+                "body": null
+              },
+              {
+                "index": 2,
+                "method": "POST",
+                "path": "/api/tasks/T-101/status",
+                "status_code": 200,
+                "effect": "acknowledged_without_persistence",
+                "body": {
+                  "status": "done"
+                }
+              },
+              {
+                "index": 3,
+                "method": "GET",
+                "path": "/",
+                "status_code": 200,
+                "effect": null,
+                "body": null
+              },
+              {
+                "index": 4,
+                "method": "GET",
+                "path": "/api/tasks",
+                "status_code": 200,
+                "effect": null,
+                "body": null
+              }
+            ],
+            "expected_verdict": "confirmed"
+          },
+          "source_hashes": {
+            "agent/report.json": "d9ef3397c0cbeb69708d1bb7b367a7734789d2decd56ccb804a92f13ac8aac14",
+            "agent/trace.jsonl": "52c348e33381b3a476e83c5c0fd8f7410de397d903b64febdc245a3ee22408ec",
+            "public-bug.json": "d2d0576b445c09bfdb81b90c8f6120f3e50ece081069560309515131a30f5c1e",
+            "deterministic-grade.json": "6c3c5110f2c15819efa0cb52179d384d056e4b95770653d0a2e0cd3d17081f67",
+            "server-journal.json": "40e5c8ebe4d57dbdb9eff522bd6d5785ae4bef62db9201c36adb16eb0a4e25e0",
+            "state-before.json": "e0fcdb7a811d753619e63e32cc3c9451e0b91ceb6e5fa34d1eb351e39708de4b",
+            "state-after.json": "51e29d6991e0bcbacf4685b14368a16d365557befa1e92fed39dda2ef9f2d796",
+            "trial.json": "1c253298c17594a2979b93796da3620d18e32bda9632275938461aa58e03bc05"
+          },
+          "browser_runtime": {
+            "node": "v24.22.1",
+            "platform": "darwin",
+            "browser": "156.0.8078.80",
+            "playwright": "1.57.0"
+          },
+          "screenshot_status": "not_included_not_visually_verified"
+        },
+        {
+          "agent_version": "0.3.0",
+          "backend": "local-model",
+          "verdict": "confirmed",
+          "summary": "The reported bug was reproduced: T-101 showed done after save, then todo after reload.",
+          "steps": [
+            {
+              "index": 1,
+              "action": "navigate",
+              "status": "completed",
+              "observation_ids": []
+            },
+            {
+              "index": 2,
+              "action": "observe_initial",
+              "status": "completed",
+              "observation_ids": [
+                "obs-0001"
+              ]
+            },
+            {
+              "index": 3,
+              "action": "select_status",
+              "status": "completed",
+              "observation_ids": []
+            },
+            {
+              "index": 4,
+              "action": "save",
+              "status": "completed",
+              "observation_ids": []
+            },
+            {
+              "index": 5,
+              "action": "observe_saved",
+              "status": "completed",
+              "observation_ids": [
+                "obs-0002"
+              ]
+            },
+            {
+              "index": 6,
+              "action": "reload",
+              "status": "completed",
+              "observation_ids": []
+            },
+            {
+              "index": 7,
+              "action": "observe_reloaded",
+              "status": "completed",
+              "observation_ids": [
+                "obs-0003"
+              ]
+            }
+          ],
+          "assertions": [
+            {
+              "criterion_id": "status-persists-after-reload",
+              "expected": "done",
+              "observed": "todo",
+              "met": false,
+              "evidence_ids": [
+                "obs-0002",
+                "obs-0003"
+              ]
+            }
+          ],
+          "limitations": [
+            "Scope: one isolated fictional local task-board trial; not a production defect or general reliability claim."
+          ],
+          "model_assessment": {
+            "saved_status": "done",
+            "reloaded_status": "todo",
+            "status_persisted": false,
+            "evidence_ids": [
+              "obs-0002",
+              "obs-0003"
+            ],
+            "explanation": "The saved status was 'done' but the reloaded status was 'todo', so they are not equal."
+          },
+          "assessment_mapping": {
+            "version": "status-persistence-v1",
+            "mode": "deterministic_after_model_checked_evidence",
+            "expected_status": "done",
+            "saved_status": "done",
+            "reloaded_status": "todo",
+            "status_persisted": false,
+            "mapped_verdict": "confirmed",
+            "evidence_ids": [
+              "obs-0002",
+              "obs-0003"
+            ]
+          },
+          "elapsed_seconds": 11.839,
+          "started_at": "2026-11-07T20:46:30.004135+00:00",
+          "trial_id": "dev-01-persistence-bug--001",
+          "bug": {
+            "id": "B-001",
+            "title": "Task status does not survive reload",
+            "description": "A task is changed to done and saved. On reload, its old status returns. Check whether this report reproduces on the supplied board.",
+            "expected": "The task remains done after save and reload.",
+            "expected_status": "done",
+            "target_task_id": "T-101"
+          },
+          "model_calls": [
+            {
+              "id": "model-001",
+              "stage": "plan",
+              "model": "llama3.1:8b",
+              "status": "completed",
+              "elapsed_seconds": 4.556,
+              "prompt_tokens": 432,
+              "output_tokens": 34
+            },
+            {
+              "id": "model-002",
+              "stage": "assess",
+              "model": "llama3.1:8b",
+              "status": "completed",
+              "elapsed_seconds": 5.996,
+              "prompt_tokens": 829,
+              "output_tokens": 75
+            }
+          ],
+          "observations": [
+            {
+              "id": "obs-0001",
+              "phase": "initial",
+              "visible_text": "Team task board\n\nChange a task status, save it, then reload to check persistence.\n\nDraft proposal\nT-101\nStatus \ntodo\ndoing\ndone\nSave\n\ntodo\n\nReview onboarding copy\nT-202\nStatus \ntodo\ndoing\ndone\nSave\n\ndoing",
+              "values": {
+                "target_task_id": "T-101",
+                "selected_status": "todo",
+                "persisted_status": "todo"
+              },
+              "screenshot_sha256": "65a0db43cf2dc84ba4b9bf155d80ab692963734d5423a7b60dd4e903be6927d3"
+            },
+            {
+              "id": "obs-0002",
+              "phase": "saved",
+              "visible_text": "Team task board\n\nChange a task status, save it, then reload to check persistence.\n\nDraft proposal\nT-101\nStatus \ntodo\ndoing\ndone\nSave\n\ndone\n\nSaved\nReview onboarding copy\nT-202\nStatus \ntodo\ndoing\ndone\nSave\n\ndoing",
+              "values": {
+                "target_task_id": "T-101",
+                "selected_status": "done",
+                "persisted_status": "done"
+              },
+              "screenshot_sha256": "601e9463e5015c9f287e92e3519a076e99bea3ef0ad011dbbe799e3b70f586c8"
+            },
+            {
+              "id": "obs-0003",
+              "phase": "reloaded",
+              "visible_text": "Team task board\n\nChange a task status, save it, then reload to check persistence.\n\nDraft proposal\nT-101\nStatus \ntodo\ndoing\ndone\nSave\n\ntodo\n\nReview onboarding copy\nT-202\nStatus \ntodo\ndoing\ndone\nSave\n\ndoing",
+              "values": {
+                "target_task_id": "T-101",
+                "selected_status": "todo",
+                "persisted_status": "todo"
+              },
+              "screenshot_sha256": "65a0db43cf2dc84ba4b9bf155d80ab692963734d5423a7b60dd4e903be6927d3"
+            }
+          ],
+          "events": [
+            {
+              "index": 1,
+              "timestamp": "2026-11-07T20:46:35.486Z",
+              "type": "action_started",
+              "action": "navigate"
+            },
+            {
+              "index": 2,
+              "timestamp": "2026-11-07T20:46:35.494Z",
+              "type": "network_request",
+              "url": "[local fixture]/",
+              "method": "GET",
+              "allowed": true
+            },
+            {
+              "index": 3,
+              "timestamp": "2026-11-07T20:46:35.500Z",
+              "type": "network_response",
+              "url": "[local fixture]/",
+              "status": 200
+            },
+            {
+              "index": 4,
+              "timestamp": "2026-11-07T20:46:35.507Z",
+              "type": "network_request",
+              "url": "[local fixture]/api/tasks",
+              "method": "GET",
+              "allowed": true
+            },
+            {
+              "index": 5,
+              "timestamp": "2026-11-07T20:46:35.514Z",
+              "type": "network_response",
+              "url": "[local fixture]/api/tasks",
+              "status": 200
+            },
+            {
+              "index": 6,
+              "timestamp": "2026-11-07T20:46:35.520Z",
+              "type": "action_completed",
+              "action": "navigate",
+              "observation_ids": []
+            },
+            {
+              "index": 7,
+              "timestamp": "2026-11-07T20:46:35.520Z",
+              "type": "action_started",
+              "action": "observe_initial"
+            },
+            {
+              "index": 8,
+              "timestamp": "2026-11-07T20:46:35.568Z",
+              "type": "observation",
+              "id": "obs-0001",
+              "phase": "initial",
+              "url": "[local fixture]/"
+            },
+            {
+              "index": 9,
+              "timestamp": "2026-11-07T20:46:35.568Z",
+              "type": "action_completed",
+              "action": "observe_initial",
+              "observation_ids": [
+                "obs-0001"
+              ]
+            },
+            {
+              "index": 10,
+              "timestamp": "2026-11-07T20:46:35.568Z",
+              "type": "action_started",
+              "action": "select_status"
+            },
+            {
+              "index": 11,
+              "timestamp": "2026-11-07T20:46:35.570Z",
+              "type": "action_completed",
+              "action": "select_status",
+              "observation_ids": []
+            },
+            {
+              "index": 12,
+              "timestamp": "2026-11-07T20:46:35.570Z",
+              "type": "action_started",
+              "action": "save"
+            },
+            {
+              "index": 13,
+              "timestamp": "2026-11-07T20:46:35.609Z",
+              "type": "network_request",
+              "url": "[local fixture]/api/tasks/T-101/status",
+              "method": "POST",
+              "allowed": true
+            },
+            {
+              "index": 14,
+              "timestamp": "2026-11-07T20:46:35.616Z",
+              "type": "network_response",
+              "url": "[local fixture]/api/tasks/T-101/status",
+              "status": 200
+            },
+            {
+              "index": 15,
+              "timestamp": "2026-11-07T20:46:35.622Z",
+              "type": "action_completed",
+              "action": "save",
+              "observation_ids": []
+            },
+            {
+              "index": 16,
+              "timestamp": "2026-11-07T20:46:35.623Z",
+              "type": "action_started",
+              "action": "observe_saved"
+            },
+            {
+              "index": 17,
+              "timestamp": "2026-11-07T20:46:35.662Z",
+              "type": "observation",
+              "id": "obs-0002",
+              "phase": "saved",
+              "url": "[local fixture]/"
+            },
+            {
+              "index": 18,
+              "timestamp": "2026-11-07T20:46:35.663Z",
+              "type": "action_completed",
+              "action": "observe_saved",
+              "observation_ids": [
+                "obs-0002"
+              ]
+            },
+            {
+              "index": 19,
+              "timestamp": "2026-11-07T20:46:35.663Z",
+              "type": "action_started",
+              "action": "reload"
+            },
+            {
+              "index": 20,
+              "timestamp": "2026-11-07T20:46:35.664Z",
+              "type": "network_request",
+              "url": "[local fixture]/",
+              "method": "GET",
+              "allowed": true
+            },
+            {
+              "index": 21,
+              "timestamp": "2026-11-07T20:46:35.668Z",
+              "type": "network_response",
+              "url": "[local fixture]/",
+              "status": 200
+            },
+            {
+              "index": 22,
+              "timestamp": "2026-11-07T20:46:35.673Z",
+              "type": "network_request",
+              "url": "[local fixture]/api/tasks",
+              "method": "GET",
+              "allowed": true
+            },
+            {
+              "index": 23,
+              "timestamp": "2026-11-07T20:46:35.676Z",
+              "type": "network_response",
+              "url": "[local fixture]/api/tasks",
+              "status": 200
+            },
+            {
+              "index": 24,
+              "timestamp": "2026-11-07T20:46:35.678Z",
+              "type": "action_completed",
+              "action": "reload",
+              "observation_ids": []
+            },
+            {
+              "index": 25,
+              "timestamp": "2026-11-07T20:46:35.678Z",
+              "type": "action_started",
+              "action": "observe_reloaded"
+            },
+            {
+              "index": 26,
+              "timestamp": "2026-11-07T20:46:35.716Z",
+              "type": "observation",
+              "id": "obs-0003",
+              "phase": "reloaded",
+              "url": "[local fixture]/"
+            },
+            {
+              "index": 27,
+              "timestamp": "2026-11-07T20:46:35.717Z",
+              "type": "action_completed",
+              "action": "observe_reloaded",
+              "observation_ids": [
+                "obs-0003"
+              ]
+            },
+            {
+              "index": 28,
+              "timestamp": "2026-11-07T20:46:35.842Z",
+              "type": "execution_finished",
+              "completed": true
+            }
+          ],
+          "grade": {
+            "passed": true,
+            "semantic_status": "unverified",
+            "checks": [
+              {
+                "detail": {
+                  "actual": "confirmed",
+                  "expected": "confirmed"
+                },
+                "name": "verdict_matches_private_oracle",
+                "passed": true
+              },
+              {
+                "detail": 1,
+                "name": "independent_save_observed",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "loads": 2,
+                  "save_positions": [
+                    2
+                  ]
+                },
+                "name": "independent_reload_observed",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "todo",
+                  "expected": "todo"
+                },
+                "name": "independent_final_state",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "server_request_scope",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "id": "T-202",
+                  "status": "doing",
+                  "title": "Review onboarding copy"
+                },
+                "name": "unrelated_task_unchanged",
+                "passed": true
+              },
+              {
+                "detail": "list",
+                "name": "observations_are_list",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "obs-0001",
+                  "obs-0002",
+                  "obs-0003"
+                ],
+                "name": "unique_observation_ids",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "evidence_files_and_hashes",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "initial",
+                  "reloaded",
+                  "saved"
+                ],
+                "name": "before_after_reload_evidence",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "todo",
+                  "expected": "todo"
+                },
+                "name": "evidence_initial_agrees_with_oracle",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "done",
+                  "expected": "done"
+                },
+                "name": "evidence_saved_agrees_with_oracle",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "todo",
+                  "expected": "todo"
+                },
+                "name": "evidence_reloaded_agrees_with_oracle",
+                "passed": true
+              },
+              {
+                "detail": [
+                  {
+                    "criterion_id": "status-persists-after-reload",
+                    "evidence_ids": [
+                      "obs-0002",
+                      "obs-0003"
+                    ],
+                    "expected": "done",
+                    "met": false,
+                    "observed": "todo"
+                  }
+                ],
+                "name": "criterion_agrees_with_independent_oracle",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "obs-0002",
+                  "obs-0003"
+                ],
+                "name": "assertion_evidence_references_resolve",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "step_evidence_references_resolve",
+                "passed": true
+              },
+              {
+                "detail": 28,
+                "name": "controller_trace_present",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "actual": "b5615f93b8bd8d40af4ac51ace366c32efde19a34a457f880750ca3d17af48ad",
+                  "claimed": "b5615f93b8bd8d40af4ac51ace366c32efde19a34a457f880750ca3d17af48ad"
+                },
+                "name": "controller_trace_hash",
+                "passed": true
+              },
+              {
+                "detail": 28,
+                "name": "controller_trace_ordered",
+                "passed": true
+              },
+              {
+                "detail": 3,
+                "name": "observations_bound_to_controller",
+                "passed": true
+              },
+              {
+                "detail": [
+                  {
+                    "action": "navigate",
+                    "observation_ids": []
+                  },
+                  {
+                    "action": "observe_initial",
+                    "observation_ids": [
+                      "obs-0001"
+                    ]
+                  },
+                  {
+                    "action": "select_status",
+                    "observation_ids": []
+                  },
+                  {
+                    "action": "save",
+                    "observation_ids": []
+                  },
+                  {
+                    "action": "observe_saved",
+                    "observation_ids": [
+                      "obs-0002"
+                    ]
+                  },
+                  {
+                    "action": "reload",
+                    "observation_ids": []
+                  },
+                  {
+                    "action": "observe_reloaded",
+                    "observation_ids": [
+                      "obs-0003"
+                    ]
+                  }
+                ],
+                "name": "steps_bound_to_controller",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "navigate",
+                  "observe_initial",
+                  "select_status",
+                  "save",
+                  "observe_saved",
+                  "reload",
+                  "observe_reloaded"
+                ],
+                "name": "required_public_workflow_completed",
+                "passed": true
+              },
+              {
+                "detail": 28,
+                "name": "controller_execution_completed",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "controller_no_unsafe_attempts",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "controller_transport_complete",
+                "passed": true
+              },
+              {
+                "detail": "Compare report source hashes with harness-read package files",
+                "name": "agent_source_provenance",
+                "passed": true
+              },
+              {
+                "detail": "Public input hashes",
+                "name": "public_input_provenance",
+                "passed": true
+              },
+              {
+                "detail": "Skill byte hash",
+                "name": "skill_provenance",
+                "passed": true
+              },
+              {
+                "detail": "local-model",
+                "name": "backend_matches_invocation",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "real_local_model_artifacts",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "return_code": 0,
+                  "state": "exited"
+                },
+                "name": "agent_process_completed",
+                "passed": true
+              }
+            ],
+            "limitations": [
+              "PNG existence and hashes do not establish screenshot semantics.",
+              "The browser controller is trusted instrumentation, not a hostile-agent security boundary.",
+              "Independent server state does not observe non-HTTP actions outside this fixture."
+            ]
+          },
+          "server": {
+            "before": {
+              "T-101": {
+                "id": "T-101",
+                "status": "todo",
+                "title": "Draft proposal"
+              },
+              "T-202": {
+                "id": "T-202",
+                "status": "doing",
+                "title": "Review onboarding copy"
+              }
+            },
+            "after": {
+              "T-101": {
+                "id": "T-101",
+                "status": "todo",
+                "title": "Draft proposal"
+              },
+              "T-202": {
+                "id": "T-202",
+                "status": "doing",
+                "title": "Review onboarding copy"
+              }
+            },
+            "journal": [
+              {
+                "index": 0,
+                "method": "GET",
+                "path": "/",
+                "status_code": 200,
+                "effect": null,
+                "body": null
+              },
+              {
+                "index": 1,
+                "method": "GET",
+                "path": "/api/tasks",
+                "status_code": 200,
+                "effect": null,
+                "body": null
+              },
+              {
+                "index": 2,
+                "method": "POST",
+                "path": "/api/tasks/T-101/status",
+                "status_code": 200,
+                "effect": "acknowledged_without_persistence",
+                "body": {
+                  "status": "done"
+                }
+              },
+              {
+                "index": 3,
+                "method": "GET",
+                "path": "/",
+                "status_code": 200,
+                "effect": null,
+                "body": null
+              },
+              {
+                "index": 4,
+                "method": "GET",
+                "path": "/api/tasks",
+                "status_code": 200,
+                "effect": null,
+                "body": null
+              }
+            ],
+            "expected_verdict": "confirmed"
+          },
+          "source_hashes": {
+            "agent/report.json": "5524f4f45879ff4457aad483db9c9ef53cd3c69ec9a4ec8ba7943c551a49474b",
+            "agent/trace.jsonl": "b5615f93b8bd8d40af4ac51ace366c32efde19a34a457f880750ca3d17af48ad",
+            "public-bug.json": "9bb37aca0efb0e714b1684d9affd3bf24c8d607f0708f28a6e4a7c3f33669ef7",
+            "deterministic-grade.json": "2284217196237a91814370056392205ef41526aa18c7beb29b9df06efd8fda2a",
+            "server-journal.json": "d38b9e4e31e3f23ac33ee8e4450606889fc37156019f5d787fdfe5554105c38c",
+            "state-before.json": "e0fcdb7a811d753619e63e32cc3c9451e0b91ceb6e5fa34d1eb351e39708de4b",
+            "state-after.json": "51e29d6991e0bcbacf4685b14368a16d365557befa1e92fed39dda2ef9f2d796",
+            "trial.json": "02699f4c5210149f1840410f8e78bb9aab840cd3e06f4b5b774e4df90b64054d"
+          },
+          "browser_runtime": {
+            "node": "v24.22.1",
+            "platform": "darwin",
+            "browser": "156.0.8078.80",
+            "playwright": "1.57.0"
+          },
+          "screenshot_status": "not_included_not_visually_verified"
+        }
+      ]
+    },
+    {
+      "id": "missing-target",
+      "title": "Missing target",
+      "headline": "Stopping is sometimes the correct result.",
+      "lesson": "Neither version had the required target. Both stopped before model or browser execution. This is an input-refusal control, not a successful browser reproduction.",
+      "runs": [
+        {
+          "agent_version": "0.2.0",
+          "backend": "local-model",
+          "verdict": "inconclusive",
+          "summary": "Inconclusive: required inputs, execution, or evidence checks were not satisfied.",
+          "steps": [],
+          "assertions": [],
+          "limitations": [
+            "ValidationError: Missing or invalid target_task_id; do not guess which task to modify",
+            "Scope: one isolated fictional local task-board trial; not a production defect or general reliability claim."
+          ],
+          "elapsed_seconds": 0.001,
+          "started_at": "2026-11-07T20:35:51.736649+00:00",
+          "trial_id": "dev-06-missing-target--001",
+          "bug": {
+            "id": "B-006",
+            "title": "Task status does not survive reload",
+            "description": "A task status resets after save and reload. The report did not identify which task.",
+            "expected": "The task remains done after save and reload.",
+            "expected_status": "done"
+          },
+          "model_calls": [],
+          "observations": [],
+          "events": [],
+          "grade": {
+            "passed": true,
+            "semantic_status": "unverified",
+            "checks": [
+              {
+                "detail": {
+                  "actual": "inconclusive",
+                  "expected": "inconclusive"
+                },
+                "name": "verdict_matches_private_oracle",
+                "passed": true
+              },
+              {
+                "detail": 0,
+                "name": "no_mutation_when_unexecutable",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "ValidationError: Missing or invalid target_task_id; do not guess which task to modify",
+                  "Scope: one isolated fictional local task-board trial; not a production defect or general reliability claim."
+                ],
+                "name": "limitation_is_explicit",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "server_request_scope",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "id": "T-202",
+                  "status": "doing",
+                  "title": "Review onboarding copy"
+                },
+                "name": "unrelated_task_unchanged",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "id": "T-101",
+                  "status": "todo",
+                  "title": "Draft proposal"
+                },
+                "name": "target_unchanged_when_unexecutable",
+                "passed": true
+              },
+              {
+                "detail": "list",
+                "name": "observations_are_list",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "unique_observation_ids",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "evidence_files_and_hashes",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "step_evidence_references_resolve",
+                "passed": true
+              },
+              {
+                "detail": 0,
+                "name": "controller_trace_present",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "controller_no_unsafe_attempts",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "controller_transport_complete",
+                "passed": true
+              },
+              {
+                "detail": "Compare report source hashes with harness-read package files",
+                "name": "agent_source_provenance",
+                "passed": true
+              },
+              {
+                "detail": "Public input hashes",
+                "name": "public_input_provenance",
+                "passed": true
+              },
+              {
+                "detail": "Skill byte hash",
+                "name": "skill_provenance",
+                "passed": true
+              },
+              {
+                "detail": "local-model",
+                "name": "backend_matches_invocation",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "real_local_model_artifacts",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "return_code": 2,
+                  "state": "exited"
+                },
+                "name": "agent_process_completed",
+                "passed": true
+              }
+            ],
+            "limitations": [
+              "PNG existence and hashes do not establish screenshot semantics.",
+              "The browser controller is trusted instrumentation, not a hostile-agent security boundary.",
+              "Independent server state does not observe non-HTTP actions outside this fixture."
+            ]
+          },
+          "server": {
+            "before": {
+              "T-101": {
+                "id": "T-101",
+                "status": "todo",
+                "title": "Draft proposal"
+              },
+              "T-202": {
+                "id": "T-202",
+                "status": "doing",
+                "title": "Review onboarding copy"
+              }
+            },
+            "after": {
+              "T-101": {
+                "id": "T-101",
+                "status": "todo",
+                "title": "Draft proposal"
+              },
+              "T-202": {
+                "id": "T-202",
+                "status": "doing",
+                "title": "Review onboarding copy"
+              }
+            },
+            "journal": [],
+            "expected_verdict": "inconclusive"
+          },
+          "source_hashes": {
+            "agent/report.json": "2d5eca95a1302c7ae6eb79e71588afb2642b39c61bfa25fb818db9bf2a356b49",
+            "public-bug.json": "eb8a2073ed5368cc1e46fc33fa4898b1f0e40dc5938f01f83bb9c5ac24b49eda",
+            "deterministic-grade.json": "215e383cb4795e3ca1443647a99dbf3ad006551d47d137cf83048472892ae689",
+            "server-journal.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+            "state-before.json": "e0fcdb7a811d753619e63e32cc3c9451e0b91ceb6e5fa34d1eb351e39708de4b",
+            "state-after.json": "e0fcdb7a811d753619e63e32cc3c9451e0b91ceb6e5fa34d1eb351e39708de4b",
+            "trial.json": "a8d2cebb383b7cb6b4606c6fe0ead1cc0a0468be8684a1096170c968e940d2c7"
+          },
+          "browser_runtime": null,
+          "screenshot_status": "not_included_not_visually_verified"
+        },
+        {
+          "agent_version": "0.3.0",
+          "backend": "local-model",
+          "verdict": "inconclusive",
+          "summary": "Inconclusive: required inputs, execution, or evidence checks were not satisfied.",
+          "steps": [],
+          "assertions": [],
+          "limitations": [
+            "ValidationError: Missing or invalid target_task_id; do not guess which task to modify",
+            "Scope: one isolated fictional local task-board trial; not a production defect or general reliability claim."
+          ],
+          "elapsed_seconds": 0.001,
+          "started_at": "2026-11-07T20:47:54.293915+00:00",
+          "trial_id": "dev-06-missing-target--001",
+          "bug": {
+            "id": "B-006",
+            "title": "Task status does not survive reload",
+            "description": "A task status resets after save and reload. The report did not identify which task.",
+            "expected": "The task remains done after save and reload.",
+            "expected_status": "done"
+          },
+          "model_calls": [],
+          "observations": [],
+          "events": [],
+          "grade": {
+            "passed": true,
+            "semantic_status": "unverified",
+            "checks": [
+              {
+                "detail": {
+                  "actual": "inconclusive",
+                  "expected": "inconclusive"
+                },
+                "name": "verdict_matches_private_oracle",
+                "passed": true
+              },
+              {
+                "detail": 0,
+                "name": "no_mutation_when_unexecutable",
+                "passed": true
+              },
+              {
+                "detail": [
+                  "ValidationError: Missing or invalid target_task_id; do not guess which task to modify",
+                  "Scope: one isolated fictional local task-board trial; not a production defect or general reliability claim."
+                ],
+                "name": "limitation_is_explicit",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "server_request_scope",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "id": "T-202",
+                  "status": "doing",
+                  "title": "Review onboarding copy"
+                },
+                "name": "unrelated_task_unchanged",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "id": "T-101",
+                  "status": "todo",
+                  "title": "Draft proposal"
+                },
+                "name": "target_unchanged_when_unexecutable",
+                "passed": true
+              },
+              {
+                "detail": "list",
+                "name": "observations_are_list",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "unique_observation_ids",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "evidence_files_and_hashes",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "step_evidence_references_resolve",
+                "passed": true
+              },
+              {
+                "detail": 0,
+                "name": "controller_trace_present",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "controller_no_unsafe_attempts",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "controller_transport_complete",
+                "passed": true
+              },
+              {
+                "detail": "Compare report source hashes with harness-read package files",
+                "name": "agent_source_provenance",
+                "passed": true
+              },
+              {
+                "detail": "Public input hashes",
+                "name": "public_input_provenance",
+                "passed": true
+              },
+              {
+                "detail": "Skill byte hash",
+                "name": "skill_provenance",
+                "passed": true
+              },
+              {
+                "detail": "local-model",
+                "name": "backend_matches_invocation",
+                "passed": true
+              },
+              {
+                "detail": [],
+                "name": "real_local_model_artifacts",
+                "passed": true
+              },
+              {
+                "detail": {
+                  "return_code": 2,
+                  "state": "exited"
+                },
+                "name": "agent_process_completed",
+                "passed": true
+              }
+            ],
+            "limitations": [
+              "PNG existence and hashes do not establish screenshot semantics.",
+              "The browser controller is trusted instrumentation, not a hostile-agent security boundary.",
+              "Independent server state does not observe non-HTTP actions outside this fixture."
+            ]
+          },
+          "server": {
+            "before": {
+              "T-101": {
+                "id": "T-101",
+                "status": "todo",
+                "title": "Draft proposal"
+              },
+              "T-202": {
+                "id": "T-202",
+                "status": "doing",
+                "title": "Review onboarding copy"
+              }
+            },
+            "after": {
+              "T-101": {
+                "id": "T-101",
+                "status": "todo",
+                "title": "Draft proposal"
+              },
+              "T-202": {
+                "id": "T-202",
+                "status": "doing",
+                "title": "Review onboarding copy"
+              }
+            },
+            "journal": [],
+            "expected_verdict": "inconclusive"
+          },
+          "source_hashes": {
+            "agent/report.json": "c79051ae84d36c32e742ed9a5066e725c629dc5f5f0d60410ea7ea25016a2715",
+            "public-bug.json": "5e1314b4c3dcbbd92cadef728c723da1603bc3aaa731389ee4657b3a8311c2b2",
+            "deterministic-grade.json": "215e383cb4795e3ca1443647a99dbf3ad006551d47d137cf83048472892ae689",
+            "server-journal.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+            "state-before.json": "e0fcdb7a811d753619e63e32cc3c9451e0b91ceb6e5fa34d1eb351e39708de4b",
+            "state-after.json": "e0fcdb7a811d753619e63e32cc3c9451e0b91ceb6e5fa34d1eb351e39708de4b",
+            "trial.json": "8aca30ac9aad9684c88832e395db1898cb0876f2f1d5cc16b675846e4e68251a"
+          },
+          "browser_runtime": null,
+          "screenshot_status": "not_included_not_visually_verified"
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,16 @@
 # Browser bug validator, v0.5.0 evaluation foundation
 
+## Explore the recorded trace
+
+Open [the local trace viewer](trace-viewer/index.html) to compare three real,
+text-only historical cases from v0.2 and v0.3. Follow browser actions, model
+outputs, safeguarded final reports and independent checks side by side. It needs
+no model, API key, dependency installation or backend. The fixed-app example
+shows a false-positive model proposal caught by a guardrail, then the checked-fact
+contract that changed the system's final result. [Start here](trace-viewer/README.md)
+for offline use, provenance and limits. Original screenshot pixels are not included;
+these selected development examples are not new reliability measurements.
+
 ## Token-free continuous integration
 
 [GitHub Actions](.github/workflows/evals.yml) checks the unit/contract suite,
