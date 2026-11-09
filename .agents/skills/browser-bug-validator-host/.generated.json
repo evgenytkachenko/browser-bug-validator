@@ -1,0 +1,13 @@
+{
+  "files": {
+    "LICENSE.txt": "d11f47c929898fc21422ba497bdee527de6acfa16983373f9bd0251527d1d07e",
+    "SKILL.md": "4bc686e1af4258a93c2354094f6947af4e783249fc9490ec524f6dfb1c465f08",
+    "agents/openai.yaml": "cf2bd2a920c627fb79a8b3a6d0ec0d9ea2ea4354b3baedb546fe9e5ec5f15916",
+    "references/controlled-harness.md": "5098c439f0139501adbf8bdfd4be104dfab88b97f4889ddaa0e8e92ce3dc7967",
+    "references/evidence.md": "75a33c4c6be1159fb5545026fbc1f3dc9e9ae7ed151d964a8b5fb1b883c7cca8",
+    "references/hosts.md": "25637b7c7138fc801f8276b8632b69c10e73c9f088001ca4d6d5e564e43f7d87",
+    "references/native-browser.md": "9151689d72887fe007eb27ecf91008825644f3a973ce7d7ccbc7ea1e7192511f"
+  },
+  "generator": "browser-bug-validator-host-adapters-v1",
+  "host": "codex"
+}

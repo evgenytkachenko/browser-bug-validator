@@ -68,7 +68,7 @@ def rehash(trial):
 class IntegrityTests(unittest.TestCase):
     def test_valid_baseline_and_complete_inventory(self):
         with tempfile.TemporaryDirectory() as temp:
-            root = Path(temp)
+            root = Path(temp).resolve()
             manifest, row, trial = make_run(root)
             self.assertEqual(load_general_run(root), (manifest, {row['trial_id']: row}))
             (trial / 'extra.txt').write_text('unlisted')
@@ -77,7 +77,7 @@ class IntegrityTests(unittest.TestCase):
     def test_tamper_missing_duplicate_and_unfrozen(self):
         for mutation in ('tamper', 'missing', 'duplicate', 'unfrozen', 'source', 'incomplete'):
             with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as temp:
-                root = Path(temp)
+                root = Path(temp).resolve()
                 manifest, row, trial = make_run(root)
                 if mutation == 'tamper': (trial / 'stdout.txt').write_text('changed')
                 elif mutation == 'missing': (trial / 'process.json').unlink()
@@ -91,7 +91,7 @@ class IntegrityTests(unittest.TestCase):
     def test_row_grade_and_process_rebinding_rejected_even_with_hashes(self):
         for key in ('deterministic_pass', 'actual_verdict', 'model_calls_attempted', 'task_id'):
             with self.subTest(key=key), tempfile.TemporaryDirectory() as temp:
-                root = Path(temp)
+                root = Path(temp).resolve()
                 _, row, trial = make_run(root)
                 row[key] = False if key == 'deterministic_pass' else 'forged'
                 dump(trial / 'trial.json', row)
@@ -101,7 +101,7 @@ class IntegrityTests(unittest.TestCase):
 
     def test_missing_hard_gate_and_rehashed_forgery_rejected(self):
         with tempfile.TemporaryDirectory() as temp:
-            root = Path(temp)
+            root = Path(temp).resolve()
             _, _, trial = make_run(root)
             result = json.loads((trial / 'grade.json').read_text())
             result['checks'] = [c for c in result['checks'] if c['name'] == 'agent_process_completed']
@@ -112,7 +112,7 @@ class IntegrityTests(unittest.TestCase):
     def test_summary_duplicate_json_and_unknown_oracle_rejected(self):
         for mutation in ('summary', 'duplicate_key', 'oracle', 'nonfinite'):
             with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as temp:
-                root = Path(temp)
+                root = Path(temp).resolve()
                 _, row, trial = make_run(root)
                 if mutation == 'summary':
                     dump(root / 'summary.json', {'trials': 1, 'successes': 1, 'model_calls_attempted': 999})
@@ -132,14 +132,14 @@ class IntegrityTests(unittest.TestCase):
     def test_path_escape_and_symlink(self):
         for escape in ('../escape', '/tmp/escape', 'agent/../../escape', 'agent\\escape'):
             with self.subTest(escape=escape), tempfile.TemporaryDirectory() as temp:
-                root = Path(temp)
+                root = Path(temp).resolve()
                 _, _, trial = make_run(root)
                 hashes = json.loads((trial / 'artifact-hashes.json').read_text())
                 hashes[escape] = 'a'*64
                 dump(trial / 'artifact-hashes.json', hashes)
                 with self.assertRaises(ValueError): load_general_run(root)
         with tempfile.TemporaryDirectory() as temp:
-            root = Path(temp)
+            root = Path(temp).resolve()
             _, _, trial = make_run(root)
             (trial / 'stdout.txt').unlink()
             (trial / 'stdout.txt').symlink_to(trial / 'stderr.txt')
@@ -191,7 +191,7 @@ class HoldoutTests(unittest.TestCase):
 
     def test_reserve_consume_once_and_binding(self):
         with tempfile.TemporaryDirectory() as temp:
-            root = Path(temp)
+            root = Path(temp).resolve()
             manifest, _, _ = make_run(root)
             path = root / 'ledger.json'
             reserve(path, root / 'manifest.json', self.tasks)
@@ -206,7 +206,7 @@ class HoldoutTests(unittest.TestCase):
 
     def test_incomplete_freeze_and_subset_rejected(self):
         with tempfile.TemporaryDirectory() as temp:
-            root = Path(temp)
+            root = Path(temp).resolve()
             manifest, _, _ = make_run(root)
             with self.assertRaises(ValueError): reserve(root/'ledger.json', root/'manifest.json', self.tasks[:1])
             manifest.update(integrity_version=1, completed=False)
@@ -215,7 +215,7 @@ class HoldoutTests(unittest.TestCase):
 
     def test_exposure_prevents_reservation_and_lock(self):
         with tempfile.TemporaryDirectory() as temp:
-            root = Path(temp)
+            root = Path(temp).resolve()
             make_run(root)
             path = root/'ledger.json'
             mark_exposed(path, self.tasks, 'inspected results')

@@ -38,7 +38,7 @@ def grade(task, report, before, after, journal, output_dir, authorization, trace
     checks.append(check("independent_request_scope", not request_errors, request_errors))
     checks.append(check("unrelated_state_unchanged", after.get("unrelated") == before.get("unrelated") == "unchanged", after))
     provenance = report.get("provenance", {})
-    expected_backend = "local-model" if backend == "local-model" else "injected-test-double"
+    expected_backend = "local-model" if backend == "local-model" else "host-selected-actions" if backend in {"host-session", "scripted-host-control"} else "injected-test-double"
     checks.append(check("backend_is_honestly_labeled", report.get("backend") == expected_backend and provenance.get("injected_model") is (backend == "scripted-control"), {"backend": report.get("backend"), "injected_model": provenance.get("injected_model")}))
     checks.append(check("public_input_binding", provenance.get("authorization_sha256") == digest(authorization) and provenance.get("bug_sha256") == authorization.get("bug_sha256"), {"authorization_sha256": provenance.get("authorization_sha256"), "bug_sha256": provenance.get("bug_sha256")}))
     if knowledge_base is not None:
@@ -170,6 +170,12 @@ def grade(task, report, before, after, journal, output_dir, authorization, trace
         checks.append(check("explicit_checked_finish_decision", len(finish) == 1 and finish[0]["answer"].get("verdict") == report.get("verdict") and set(finish[0]["answer"].get("evidence_ids", [])) == required_ids and required_ids <= set(ids), len(finish)))
         checks.append(check("model_participates_at_each_decision", len(calls) == len(observations) + 1 and all(call.get("status") == "completed" and call.get("stage") == "decide" for call in calls), len(calls)))
         artifacts = []
+        if backend in {"host-session", "scripted-host-control"}:
+            request_ids = [call.get("request_id") for call in calls]
+            if len(set(request_ids)) != len(request_ids) or any(not isinstance(value, str) or len(value) != 32 for value in request_ids):
+                artifacts.append("Host request identities are missing or replayed")
+            if report.get("decisions") != [call.get("answer") for call in calls]:
+                artifacts.append("Host decisions disagree with the recorded calls")
         for call in calls:
             artifact = _local_file(output, call.get("artifact"))
             if artifact is None:
@@ -182,6 +188,34 @@ def grade(task, report, before, after, journal, output_dir, authorization, trace
                     raw = data["response"]["message"]["content"]
                     if json.loads(raw) != call.get("answer") or call.get("backend") != "ollama" or digest(data["request"]) != call.get("request_sha256") or digest(data["response"]) != call.get("response_sha256"):
                         artifacts.append("Model answer is not bound to raw Ollama response")
+                elif backend in {"host-session", "scripted-host-control"}:
+                    from bug_validator.host_protocol import PROTOCOL
+                    payload = data["request"]["payload"]
+                    response = data["response"]
+                    # Interrupted/time-limited host attempts intentionally preserve
+                    # response:null. Such attempts must grade failed, not prevent
+                    # the failed trial from being archived and replayed.
+                    if type(response) is not dict:
+                        artifacts.append("Host decision has no completed object response")
+                        response = {}
+                    identity = provenance.get("host_identity", {})
+                    origin = "scripted-control" if backend == "scripted-host-control" else "host-session"
+                    if (data.get("kind") != "host-selected-actions" or data.get("call") != call
+                            or data.get("identity") != identity
+                            or identity.get("decision_origin") != origin
+                            or identity.get("verification") != "self-reported-not-authenticated"
+                            or identity.get("model_quality_claim_eligible") is not False
+                            or provenance.get("model_quality_claim_eligible") is not False
+                            or response.get("protocol") != PROTOCOL
+                            or response.get("session_id") != provenance.get("host_session_id")
+                            or response.get("session_id") != call.get("session_id")
+                            or response.get("request_id") != call.get("request_id")
+                            or response.get("request_sha256") != call.get("request_sha256")
+                            or response.get("answer") != call.get("answer")
+                            or digest(data["request"]) != call.get("request_sha256")
+                            or digest(response) != call.get("response_sha256")
+                            or call.get("backend") != "host-selected-actions"):
+                        artifacts.append("Host decision is unbound or origin/identity is mislabeled")
                 else:
                     payload = data["request"]["payload"]
                     if data.get("kind") != "scripted-control-not-model" or data.get("answer") != call.get("answer") or call.get("backend") != "scripted-control" or digest(data["request"]) != call.get("request_sha256"):
@@ -193,6 +227,34 @@ def grade(task, report, before, after, journal, output_dir, authorization, trace
                 artifacts.append("Malformed decision artifact")
         checks.append(check("decision_provenance_and_no_oracle_leak", not artifacts, artifacts))
 
+    if backend in {"host-session", "scripted-host-control"}:
+        from bug_validator.host_protocol import TOKEN
+        identity = provenance.get("host_identity", {})
+        checks.append(check("host_identity_is_explicitly_unverified",
+            identity.get("claimed_host") in {"codex", "claude", "other"}
+            and identity.get("decision_origin") == ("host-session" if backend == "host-session" else "scripted-control")
+            and identity.get("verification") == "self-reported-not-authenticated"
+            and identity.get("model_quality_claim_eligible") is False
+            and provenance.get("model_quality_claim_eligible") is False
+            and isinstance(provenance.get("host_session_id"), str)
+            and bool(TOKEN.fullmatch(provenance["host_session_id"])), identity))
+        from .host_integrity import request_binding_errors
+        binding_errors = request_binding_errors(report, authorization, output, knowledge_base)
+        checks.append(check("host_requests_bound_to_prior_evidence", not binding_errors, binding_errors))
+        if exercise:
+            from bug_validator.host_protocol import read_json
+            try:
+                execution = read_json(output / "execution.json")
+                closed_ok = (execution.get("completed") is True and execution.get("observations") == observations
+                             and execution.get("steps") == report.get("steps")
+                             and execution.get("trace_sha256") == provenance.get("trace_sha256")
+                             and bool(trace) and trace[-1].get("type") == "closed"
+                             and sum(row.get("type") == "closed" for row in trace) == 1
+                             and not any(row.get("allowed") is not True for row in execution.get("network", [])))
+                closed_detail = {"completed": execution.get("completed"), "trace_closed": bool(trace) and trace[-1].get("type") == "closed"}
+            except (ValueError, OSError, KeyError, TypeError) as exc:
+                closed_ok, closed_detail = False, str(exc)
+            checks.append(check("host_execution_closed_and_bound", closed_ok, closed_detail))
     return {"schema_version": 1, "passed": all(row["passed"] for row in checks), "checks": checks,
             "semantic_status": "unverified", "limitations": [
                 "Fixture state and request audit are independent of the agent's report, not independent of fixture authors.",

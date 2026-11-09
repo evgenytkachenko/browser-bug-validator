@@ -1,0 +1,4 @@
+interface:
+  display_name: "Host Browser Bug Validator"
+  short_description: "Reproduce browser bugs with the host's own tools"
+  default_prompt: "Use $browser-bug-validator-host to validate this reported web UI bug within the target and actions I authorize."

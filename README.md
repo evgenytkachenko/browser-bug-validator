@@ -1,12 +1,34 @@
-# Browser bug validator, v0.5.0 evaluation foundation
+# Browser bug validator
 
-## Select a native coding agent
+## Candidate: use the host's model and browser
 
-Use the project-scoped `browser-bug-validator` agent in Claude Code or Codex.
-[Selection, required inputs, and scope](docs/native-agents.md) explains both native
-formats. These are operator wrappers around the existing local Ollama/browser
-runner, not new cloud-model backends or arbitrary-site automation. No global
-installation or permission changes are required.
+The new [host-native skill](docs/host-native.md) provides project-local adapters
+for Claude Code and Codex. It uses the current host model and an existing
+authorized browser tool, with no required Ollama or separate model API. A second,
+explicitly separate path lets the host choose each action in the repository's
+controlled fixture harness. Skill instructions do not install a browser or grant
+permissions. Packaging and scripted tests are not live-host reliability results.
+The legacy local-model paths and historical measurements below are unchanged.
+
+Start with `/browser-bug-validator-host` in a local Claude Code project or
+`$browser-bug-validator-host` in Codex. Both project-local skill adapters are
+included. For the repository's disposable fixture instead of a host browser,
+follow [the host-selected controller guide](docs/host-control.md). See
+[what has and has not been tested](docs/host-native-validation.md). A Claude
+loaded-skill fixture trial passed; the observed Codex trial produced valid
+decisions but ended inconclusive after browser cleanup timed out. Direct
+host-browser integrations remain untested by those controlled trials.
+An optional project Claude agent requests skill preloading, explicitly loads it
+if absent, and permits tools from an already configured `playwright` MCP server.
+See [agent/tool setup distinctions](docs/host-native.md#claude-agent-and-playwright-mcp);
+the package does not install or configure that server.
+
+## Legacy local-model operator agents
+
+The existing project-scoped `browser-bug-validator` agents remain available in
+Claude Code and Codex. [Selection, required inputs, and scope](docs/native-agents.md)
+explains those legacy operator wrappers around the Ollama/browser runner. Use
+`browser-bug-validator-host` above for the new host-selected workflow.
 
 ## Explore the recorded trace
 
@@ -57,6 +79,9 @@ The narrow first workflow is a fictional task board: a reported status change is
 
 ## What is in the box
 
+- `skills/browser-bug-validator-host/`: portable instructions using the host's current model and authorized browser tools.
+- `.claude/skills/browser-bug-validator-host/` and `.agents/skills/browser-bug-validator-host/`: generated, self-contained project adapters without tool grants or global settings.
+- `bug_validator/host.py` and `evaluations/host_control.py`: host-selected decisions and independent grading for the controlled fixture path, without Ollama.
 - `bug_validator/`: Python orchestrator, KB retrieval, real local Ollama model adapter, and bounded Node/Playwright browser controller.
 - `skills/browser-bug-validator/SKILL.md`: legacy operator entrypoint, fingerprinted but not injected into model calls; its plan/assess references are the legacy runtime prompts.
 - `skills/browser-bug-validator-general/SKILL.md`: new general-loop operator entrypoint; its runtime prompt is defined and fingerprinted in `bug_validator/general.py`.
@@ -66,7 +91,9 @@ The narrow first workflow is a fictional task board: a reported status change is
 
 ## Requirements
 
-Python 3.10+ for the complete evaluation suite, an existing Node.js, Playwright 1.48+, and Chromium/Chrome on macOS or Linux. The evaluation runner uses POSIX process groups and does not currently support Windows. Model mode additionally requires an existing local Ollama server and installed model. No Python packages are required. Normal agent/evaluation commands do not download dependencies or models, change the user's browser profile, install software, or call a paid service. The explicit [CI setup](docs/ci-evaluations.md) installs its pinned browser dependencies on the disposable runner.
+The host-native browser skill needs Claude Code or Codex with an existing, authorized browser capability. It does not itself require Python, Node, Playwright, or Ollama, and does not provide a browser integration. Normal host usage limits and tool costs still apply.
+
+The controlled fixture/evaluation suite needs Python 3.10+, an existing Node.js, Playwright 1.48+, and Chromium/Chrome on macOS or Linux. The evaluation runner uses POSIX process groups and does not currently support Windows. Only the legacy local-model mode additionally requires an existing Ollama server and installed model. No Python packages are required. Normal agent/evaluation commands do not download dependencies or models, change the user's browser profile, install software, or call a paid service. The explicit [CI setup](docs/ci-evaluations.md) installs its pinned browser dependencies on the disposable runner.
 
 Run from this directory. If Playwright or Chrome is not discoverable, provide `--browser-config` with the existing executable/module paths. Example for an installed ChatGPT Mac application:
 

@@ -1,0 +1,12 @@
+{
+  "files": {
+    "LICENSE.txt": "d11f47c929898fc21422ba497bdee527de6acfa16983373f9bd0251527d1d07e",
+    "SKILL.md": "87d972426856b8b05236fa20143451065a507e1cbc5e1c779f3a774dab1c02f9",
+    "references/controlled-harness.md": "5098c439f0139501adbf8bdfd4be104dfab88b97f4889ddaa0e8e92ce3dc7967",
+    "references/evidence.md": "75a33c4c6be1159fb5545026fbc1f3dc9e9ae7ed151d964a8b5fb1b883c7cca8",
+    "references/hosts.md": "25637b7c7138fc801f8276b8632b69c10e73c9f088001ca4d6d5e564e43f7d87",
+    "references/native-browser.md": "9151689d72887fe007eb27ecf91008825644f3a973ce7d7ccbc7ea1e7192511f"
+  },
+  "generator": "browser-bug-validator-host-adapters-v1",
+  "host": "claude"
+}

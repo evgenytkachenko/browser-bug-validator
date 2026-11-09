@@ -16,6 +16,7 @@ from .general_browser import BrowserSession
 from .general_contracts import decision_schema, require, validate_authorization, validate_value
 from .knowledge import retrieve
 from .model import LocalModel
+from .host_protocol import HostDecisionSource
 from .schemas import validate_response
 
 SYSTEM = """Validate the operator-defined test in a disposable local fixture, one browser action at a time.
@@ -116,13 +117,16 @@ def verify_execution(execution, observations, steps, output):
     require(not any(row.get('allowed') is not True for row in execution.get('network', [])), 'Blocked request invalidates verdict')
 
 
-def run_agent(bug, knowledge_base, authorization, output_dir, model_config=None, browser_config=None, *, model=None, browser_factory=None):
+def run_agent(bug, knowledge_base, authorization, output_dir, model_config=None, browser_config=None, *, model=None, browser_factory=None, host_source=None):
     """Run a real local-model loop, or explicitly injected test doubles.
 
     Test injections are provenance-labeled and are not a real-model quality test.
     No deterministic fallback or evaluator-private recipe is imported here.
     """
+    require(host_source is None or type(host_source) is HostDecisionSource, 'Invalid host decision source')
+    require(host_source is None or (model is None and model_config is None), 'Host decisions cannot use a second model backend')
     output = Path(output_dir).resolve()
+    require(host_source is None or output == host_source.output_dir.resolve(), 'Host output directory mismatch')
     output.mkdir(parents=True, exist_ok=True)
     require(not any(output.iterdir()), 'Output directory must be empty; preserve earlier trials')
     started = time.monotonic()
@@ -131,7 +135,7 @@ def run_agent(bug, knowledge_base, authorization, output_dir, model_config=None,
     proposed_verdict = None
     injected = model is not None or browser_factory is not None
     report = {'schema_version': 2, 'agent_version': '0.4.0', 'mode': 'general-loop',
-        'backend': 'injected-test-double' if injected else 'local-model',
+        'backend': 'injected-test-double' if injected else ('host-selected-actions' if host_source else 'local-model'),
         'scenario_id': bug.get('id') if type(bug) is dict else None, 'verdict': 'inconclusive',
         'summary': 'Required evidence was not established.', 'observations': [], 'steps': [], 'decisions': [],
         'checkpoint_results': [], 'assertions': [], 'limitations': [], 'model_calls': [],
@@ -140,6 +144,11 @@ def run_agent(bug, knowledge_base, authorization, output_dir, model_config=None,
             'authorization_sha256': digest(authorization), 'system_prompt_sha256': digest(SYSTEM),
             'source_sha256': {p.name: file_digest(p) for p in sorted(list(Path(__file__).parent.glob('*.py')) + list(Path(__file__).parent.glob('*.cjs'))) if p.is_file()},
             'injected_model': model is not None, 'injected_browser': browser_factory is not None}}
+    if host_source is not None:
+        report['provenance']['host_identity'] = copy.deepcopy(host_source.identity)
+        report['provenance']['host_session_id'] = host_source.session_id
+        report['provenance']['model_quality_claim_eligible'] = False
+        model = host_source
     try:
         auth = validate_authorization(copy.deepcopy(authorization))
         require(auth['bug_sha256'] == digest(bug), 'Operator capability file is bound to a different bug report')
@@ -181,6 +190,8 @@ def run_agent(bug, knowledge_base, authorization, output_dir, model_config=None,
             if isinstance(model, LocalModel):
                 require(deadline - time.monotonic() >= 1, 'Insufficient remaining model time budget')
                 model.timeout = min(model.timeout, deadline - time.monotonic())
+            if host_source is not None:
+                host_source.timeout = max(0, deadline - time.monotonic())
             answer = model.ask('decide', SYSTEM, copy.deepcopy(payload), schema)
             validate_response(answer, schema)
             require(time.monotonic() < deadline, 'Agent wall-time budget exceeded after model decision')
@@ -212,7 +223,7 @@ def run_agent(bug, knowledge_base, authorization, output_dir, model_config=None,
             capture_checkpoint(auth, report['checkpoint_results'], actual)
         else:
             raise ValidationError('Decision/step budget exceeded without a grounded finish')
-    except Exception as exc:
+    except (Exception, KeyboardInterrupt) as exc:
         proposed_verdict = None
         report['limitations'].append(f'{type(exc).__name__}: {str(exc)[:1500]}')
     finally:
@@ -236,10 +247,14 @@ def run_agent(bug, knowledge_base, authorization, output_dir, model_config=None,
             report['model_calls'] = getattr(model, 'calls', [])
         if injected:
             report['limitations'].append('Injected test double(s): this run does not establish real-model quality.')
+        if host_source is not None:
+            report['limitations'].append('Host-selected actions: host/model identity is self-reported, not authenticated. This transport alone is not a Claude or Codex quality benchmark.')
         report['limitations'].append('Controlled fictional loopback fixtures only. Operator-authored capabilities and objective checks are required; not arbitrary-site or production readiness. Application-level routing is not an OS security sandbox.')
         report['elapsed_seconds'] = round(time.monotonic() - started, 3)
         report['finished_at'] = datetime.now(timezone.utc).isoformat()
         write_json(output / 'report.json', report)
         (output / 'report.md').write_text('# General browser validation\n\nVerdict: ' + report['verdict'] + '\n\n' + report['summary'] +
             '\n\n## Limitations\n' + '\n'.join('- ' + row for row in report['limitations']) + '\n')
+    if host_source is not None:
+        host_source.complete(report)
     return report

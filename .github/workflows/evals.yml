@@ -41,6 +41,7 @@ jobs:
           node --check bug_validator/general_bridge.cjs
           node --check trace-viewer/app.js
           node --test trace-viewer/test_app.cjs
+          python scripts/build_host_skills.py --check
       - name: Run unit and contract tests
         run: |
           mkdir -p runs/ci
@@ -106,6 +107,16 @@ jobs:
             --output runs/ci/scripted-browser | tee runs/ci/scripted-browser.txt
       - name: Replay objective grades and require full browser participation
         run: python -m ci.verify_control runs/ci/scripted-browser | tee runs/ci/browser-gate.json
+      - name: Exercise the host mailbox with scripted decisions (no host model)
+        run: |
+          python -m evaluations.host_control scripted \
+            --run-dir runs/ci/scripted-host --host other \
+            --browser-config browser.local.json | tee runs/ci/scripted-host.txt
+      - name: Replay all 11 exact host-mailbox case archives
+        run: |
+          for case_dir in runs/ci/scripted-host/dev-*; do
+            python -m evaluations.host_control verify --run-dir "$case_dir"
+          done | tee runs/ci/host-replay.txt
       - name: Record measurement limits
         if: always()
         run: |
@@ -115,6 +126,7 @@ jobs:
             echo 'It covers the 11 development tasks only. Reserved transfer cases are not executed.'
             echo 'A failed launch, incomplete run, failed objective check, or absent browser evidence fails the job.'
             echo 'Model reliability, semantic judging, and human calibration remain unmeasured here.'
+            echo 'The host-mailbox path is separately exercised with scripted decisions, not Claude or Codex.'
           } >> "$GITHUB_STEP_SUMMARY"
       - name: Retain only control summaries (no captures or raw agent runs)
         if: always()
@@ -127,5 +139,8 @@ jobs:
             runs/ci/scripted-browser/summary.json
             runs/ci/scripted-browser/manifest.json
             runs/ci/scripted-browser/trials.jsonl
+            runs/ci/scripted-host.txt
+            runs/ci/scripted-host/summary.json
+            runs/ci/host-replay.txt
           retention-days: 7
           if-no-files-found: warn
